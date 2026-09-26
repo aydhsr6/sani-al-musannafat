@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صانع الكتب التراثي - الإصدار النهائي المستقر</title>
+    <title>صانع الكتب التراثي - الإصدار المثالي المعالج</title>
     <!-- استدعاء خط أُميري (Amiri) التراثي -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
@@ -18,18 +18,18 @@
             min-height: 100vh;
         }
 
-        /* شريط الأدوات العلوي العائم والمطور */
+        /* شريط الأدوات العلوي العائم */
         .toolbar {
             background: #fdfbf7;
-            padding: 12px 20px;
+            padding: 10px 15px;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             margin-bottom: 25px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
             flex-wrap: wrap;
-            max-width: 900px;
+            max-width: 950px;
             width: 100%;
             box-sizing: border-box;
             border: 2px solid #c5b39c;
@@ -38,7 +38,7 @@
             z-index: 1000;
         }
 
-        .toolbar input[type="text"], .toolbar select {
+        .toolbar input[type="text"] {
             font-family: 'Amiri', serif;
             background: #fff;
             color: #2b2b2b;
@@ -53,10 +53,10 @@
             background: #8b4513;
             color: #fff;
             border: none;
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             transition: background 0.2s;
         }
 
@@ -73,11 +73,22 @@
 
         .tool-group {
             display: flex;
-            gap: 4px;
+            gap: 3px;
             background: #f0eae1;
-            padding: 3px;
+            padding: 2px;
             border-radius: 5px;
             border: 1px solid #d4c5b9;
+            align-items: center;
+        }
+
+        /* أزرار الألوان المباشرة */
+        .color-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         /* حاوية الصفحات */
@@ -89,32 +100,43 @@
             align-items: center;
         }
 
-        /* حاوية صفحة الـ A4 الثابتة */
+        /* صفحة الـ A4 الثابتة بدقة */
         .book-page {
             background-color: #fdfbf7;
             width: 210mm;
-            min-height: 297mm;
-            padding: 25mm 20mm;
+            height: 297mm; /* مقاس A4 حقيقي وثابت لمنع أي تداخل */
+            padding: 20mm 20mm 45mm 20mm; /* ترك مساحة بالأسفل للهامش والمحتوى */
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             border: 2px solid #d4c5b9;
             position: relative;
             box-sizing: border-box;
+            overflow: hidden; /* لمنع خروج النصوص عن الصفحة */
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* الهامش في الأسفل تماماً دائماً */
         }
 
-        /* تفعيل الإطار التراثي الاختياري */
+        /* الإطار التراثي الاختياري */
         .book-page.bordered {
             border: 10px solid transparent;
             border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cpath d='M0 0h50v50H0z' fill='none'/%3E%3Cpath d='M2 2v46h46V2H2zm2 2h42v42H4V4z' fill='%238b4513'/%3E%3C/svg%3E") 20 stretch;
         }
 
-        /* منطقة المحتوى العلوي لتتمدد وتدفع الهامش لأسفل */
+        /* منطقة المحتوى العلوي */
         .page-main-area {
             display: flex;
             flex-direction: column;
             flex-grow: 1;
+            overflow-y: auto; /* يسمح بالكتابة داخل حدود الصفحة دون أن تؤثر على الهامش السفلي */
+            max-height: 215mm;
+        }
+
+        /* إخفاء شريط التمرير المزعج داخل الصفحة للمظهر الجمالي */
+        .page-main-area::-webkit-scrollbar {
+            width: 4px;
+        }
+        .page-main-area::-webkit-scrollbar-thumb {
+            background: #c5b39c;
+            border-radius: 4px;
         }
 
         /* رأس الصفحة */
@@ -123,9 +145,9 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 2px solid #c5b39c;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            font-size: 16px;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 15px;
             color: #5c4b37;
             font-weight: bold;
         }
@@ -134,40 +156,42 @@
         .chapter-title {
             text-align: center;
             color: #8b4513;
-            font-size: 22px;
+            font-size: 21px;
             font-weight: bold;
-            margin: 15px 0 25px 0;
+            margin: 10px 0 20px 0;
         }
 
         /* نص الصفحة الأساسي */
         .page-content {
-            font-size: 19px;
-            line-height: 2.3;
+            font-size: 18px;
+            line-height: 2.2;
             color: #2b2b2b;
             text-align: justify;
-            flex-grow: 1;
         }
 
         .page-content p {
-            margin-bottom: 15px;
-            text-indent: 30px;
+            margin-bottom: 12px;
+            text-indent: 25px;
         }
 
-        /* قسم الهوامش والتخريجات مثبت أسفل الصفحة دائماً */
+        /* قسم الهوامش والتخريجات مثبت في أسفل الصفحة تماماً ولن يتحرك نهائياً */
         .footnotes {
-            margin-top: auto; 
+            position: absolute;
+            bottom: 15mm;
+            left: 20mm;
+            right: 20mm;
             border-top: 1px solid #d4c5b9;
-            padding-top: 15px;
-            font-size: 14px;
+            padding-top: 8px;
+            font-size: 13px;
             color: #555;
-            line-height: 1.8;
-            background-color: rgba(212, 197, 185, 0.05);
-            padding: 10px;
-            border-radius: 4px;
+            line-height: 1.6;
+            background-color: #fdfbf7;
+            max-height: 30mm;
+            overflow-y: auto;
         }
 
         .footnotes p {
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         /* أرقام الهوامش العلوية */
@@ -182,16 +206,17 @@
         /* زر حذف الصفحة */
         .delete-page-btn {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 5px;
+            left: 5px;
             background: #a00000;
             color: white;
             border: none;
-            padding: 4px 8px;
+            padding: 3px 6px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             display: none;
+            z-index: 10;
         }
         .book-page:hover .delete-page-btn {
             display: block;
@@ -202,7 +227,7 @@
             border-radius: 3px;
         }
 
-        /* تخصيص الطباعة */
+        /* تخصيص الطباعة للالتزام التام بصفحات A4 */
         @media print {
             body {
                 background: none;
@@ -219,31 +244,34 @@
                 border: none;
                 margin: 0;
                 page-break-after: always;
+                height: 297mm;
+                page-break-inside: avoid;
             }
         }
     </style>
 </head>
 <body oninput="autoSave()">
 
-    <!-- شريط الأدوات المطور -->
+    <!-- شريط الأدوات العلوي -->
     <div class="toolbar">
-        <input type="text" id="globalBookTitleInput" placeholder="اسم الكتاب..." value="الداء والدواء" style="width: 140px;" oninput="updateGlobalTitle(this.value)">
+        <input type="text" id="globalBookTitleInput" placeholder="اسم الكتاب..." value="الداء والدواء" style="width: 130px;" oninput="updateGlobalTitle(this.value)">
         
-        <select id="colorPicker" onchange="changeTextColor(this.value)">
-            <option value="">🎨 تلوين النص...</option>
-            <option value="#8b4513">بني تراثي</option>
-            <option value="#a00000">أحمر داكن</option>
-            <option value="#004d40">أخضر غامق</option>
-            <option value="#1a237e">أزرق داكن</option>
-            <option value="#2b2b2b">أسود فحمي</option>
-        </select>
+        <!-- أزرار الألوان المباشرة (مع منع فقدان التحديد) -->
+        <div class="tool-group" title="تلوين الكلمة المحددة">
+            <span style="font-size:12px; padding:0 4px; color:#5c4b37; font-weight:bold;">اللون:</span>
+            <div class="color-btn" style="background-color: #8b4513;" title="بني تراثي" onmousedown="event.preventDefault(); changeTextColor('#8b4513')"></div>
+            <div class="color-btn" style="background-color: #a00000;" title="أحمر داكن" onmousedown="event.preventDefault(); changeTextColor('#a00000')"></div>
+            <div class="color-btn" style="background-color: #004d40;" title="أخضر غامق" onmousedown="event.preventDefault(); changeTextColor('#004d40')"></div>
+            <div class="color-btn" style="background-color: #1a237e;" title="أزرق داكن" onmousedown="event.preventDefault(); changeTextColor('#1a237e')"></div>
+            <div class="color-btn" style="background-color: #2b2b2b;" title="أسود فحمي" onmousedown="event.preventDefault(); changeTextColor('#2b2b2b')"></div>
+        </div>
 
-        <!-- أزرار المحاذاة الدقيقة لمنع مشاكل المسافات -->
-        <div class="tool-group" title="محاذاة الفقرة المحددة">
-            <button onclick="alignText('right')" title="يمين">➡️</button>
-            <button onclick="alignText('center')" title="توسيط تام بالوسط">🎯 توسيط</button>
-            <button onclick="alignText('left')" title="ليسار">⬅️</button>
-            <button onclick="alignText('justify')" title="ضبط متساوي">⚖️ ضبط</button>
+        <!-- أزرار المحاذاة الدقيقة -->
+        <div class="tool-group" title="محاذاة النص">
+            <button onclick="alignText('right')" title="يمين" onmousedown="event.preventDefault()">➡️</button>
+            <button onclick="alignText('center')" title="توسيط تام بالوسط" onmousedown="event.preventDefault()">🎯 توسيط</button>
+            <button onclick="alignText('left')" title="يسار" onmousedown="event.preventDefault()">⬅️</button>
+            <button onclick="alignText('justify')" title="ضبط متساوي" onmousedown="event.preventDefault()">⚖️ ضبط</button>
         </div>
 
         <button onclick="addFootnoteItem()">➕ هامش</button>
@@ -282,12 +310,12 @@
     </div>
 
 <script>
-    // عند فتح الصفحة، تحميل المحفوظات إن وجدت
+    // استرجاع المحفوظات عند الفتح
     window.addEventListener('DOMContentLoaded', () => {
         loadBookData();
     });
 
-    // تحديث اسم الكتاب في جميع الصفحات
+    // تحديث اسم الكتاب في كل الصفحات
     function updateGlobalTitle(newTitle) {
         document.querySelectorAll('.header-book-title').forEach(el => {
             el.innerText = newTitle;
@@ -325,7 +353,7 @@
                     [ عنوان الفصل الجديد ]
                 </div>
                 <div class="page-content" contenteditable="true">
-                    <p>اكتب نص الصفحة هنا... الهامش سيبقى مثبتاً في الأسفل تماماً.</p>
+                    <p>اكتب نص الصفحة هنا... الهامش مثبت دائماً في الأسفل.</p>
                 </div>
             </div>
             <div class="footnotes" contenteditable="true">
@@ -351,16 +379,14 @@
         autoSave();
     }
 
-    // إصلاح وتفعيل تلوين النص المظلل بدقة
+    // تلوين النص المظلل دون فقدان التحديد بفضل منع فقدان التركيز
     function changeTextColor(color) {
-        if (!color) return;
         const selection = window.getSelection();
         if (!selection.rangeCount) return;
         const range = selection.getRangeAt(0);
         
         if (range.collapsed) {
             alert("الرجاء تحديد (تظليل) الكلمة أو العبارة أولاً لتلوينها.");
-            document.getElementById('colorPicker').value = "";
             return;
         }
         
@@ -369,27 +395,25 @@
         span.appendChild(range.extractContents());
         range.insertNode(span);
         
-        document.getElementById('colorPicker').value = "";
         autoSave();
     }
 
-    // ميزة التوسيط والمحاذاة الدقيقة للفقرات (تغنيك عن المسافات اليدوية)
+    // محاذاة النص والفقرات
     function alignText(alignment) {
         const selection = window.getSelection();
         if (!selection.rangeCount) return;
         
         let container = selection.anchorNode;
-        if (container.nodeType === 3) { // نص عادي
+        if (container.nodeType === 3) {
             container = container.parentElement;
         }
         
-        // البحث عن أقرب عنصر فقرة أو عنوان
         const block = container.closest('p, .chapter-title, div');
         if (block) {
             block.style.textAlign = alignment;
             autoSave();
         } else {
-            alert("الرجاء النقر داخل الفقرة أو العنوان المراد محاذاته.");
+            alert("الرجاء النقر داخل الفقرة المراد محاذاتها.");
         }
     }
 
@@ -423,7 +447,7 @@
         autoSave();
     }
 
-    // تبديل الإطار التراثي
+    // تبديل الإطار
     function toggleBorder() {
         const pages = document.querySelectorAll('.book-page');
         pages.forEach(page => {
@@ -432,7 +456,7 @@
         autoSave();
     }
 
-    // الحفظ التلقائي في ذاكرة المتصفح (LocalStorage)
+    // حفظ تلقائي
     function autoSave() {
         const bookTitle = document.getElementById('globalBookTitleInput').value;
         const pagesContent = document.getElementById('pagesContainer').innerHTML;
@@ -446,13 +470,13 @@
         localStorage.setItem('heritageBookSavedData', JSON.stringify(bookData));
     }
 
-    // زر الحفظ اليدوي مع رسالة تأكيد
+    // حفظ يدوي
     function manualSave() {
         autoSave();
-        alert("تم حفظ الكتاب بنجاح تام في المتصفح! 💾 ولن يضيع أي شيء عند تحديث الصفحة.");
+        alert("تم حفظ الكتاب بنجاح تام في المتصفح! 💾 ولن يضيع أي شيء.");
     }
 
-    // استرجاع البيانات المحفوظة عند فتح الصفحة
+    // استرجاع البيانات
     function loadBookData() {
         const savedData = localStorage.getItem('heritageBookSavedData');
         if (savedData) {
