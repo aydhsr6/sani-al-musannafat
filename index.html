@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صانع الكتب التراثي - الإصدار المتطور</title>
+    <title>صانع الكتب التراثي - الإصدار النهائي المستقر</title>
     <!-- استدعاء خط أُميري (Amiri) التراثي -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
@@ -18,7 +18,7 @@
             min-height: 100vh;
         }
 
-        /* شريط الأدوات العلوي الثابت والمطور */
+        /* شريط الأدوات العلوي العائم والمطور */
         .toolbar {
             background: #fdfbf7;
             padding: 12px 20px;
@@ -26,10 +26,10 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             margin-bottom: 25px;
             display: flex;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
             flex-wrap: wrap;
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             box-sizing: border-box;
             border: 2px solid #c5b39c;
@@ -45,7 +45,7 @@
             border: 1px solid #c5b39c;
             padding: 6px 10px;
             border-radius: 4px;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .toolbar button {
@@ -53,15 +53,31 @@
             background: #8b4513;
             color: #fff;
             border: none;
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 14px;
             transition: background 0.2s;
         }
 
         .toolbar button:hover {
             background: #5c2c16;
+        }
+
+        .toolbar button.save-btn {
+            background: #004d40;
+        }
+        .toolbar button.save-btn:hover {
+            background: #00251a;
+        }
+
+        .tool-group {
+            display: flex;
+            gap: 4px;
+            background: #f0eae1;
+            padding: 3px;
+            border-radius: 5px;
+            border: 1px solid #d4c5b9;
         }
 
         /* حاوية الصفحات */
@@ -85,7 +101,7 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* يضمن بقاء الهامش في الأسفل تماماً */
+            justify-content: space-between; /* الهامش في الأسفل تماماً دائماً */
         }
 
         /* تفعيل الإطار التراثي الاختياري */
@@ -101,7 +117,7 @@
             flex-grow: 1;
         }
 
-        /* رأس الصفحة (اسم الكتاب الموحد ورقم الصفحة التلقائي) */
+        /* رأس الصفحة */
         .page-header {
             display: flex;
             justify-content: space-between;
@@ -139,7 +155,7 @@
 
         /* قسم الهوامش والتخريجات مثبت أسفل الصفحة دائماً */
         .footnotes {
-            margin-top: auto; /* السر في إبقاء الهامش بالأسفل حتى لو المساحة فارغة */
+            margin-top: auto; 
             border-top: 1px solid #d4c5b9;
             padding-top: 15px;
             font-size: 14px;
@@ -163,7 +179,7 @@
             font-size: 0.8em;
         }
 
-        /* زر حذف الصفحة (يظهر عند الحاجة) */
+        /* زر حذف الصفحة */
         .delete-page-btn {
             position: absolute;
             top: 10px;
@@ -178,7 +194,7 @@
             display: none;
         }
         .book-page:hover .delete-page-btn {
-            display: block; /* يظهر الزر عند المرور على الصفحة */
+            display: block;
         }
 
         [contenteditable="true"]:hover {
@@ -207,14 +223,14 @@
         }
     </style>
 </head>
-<body>
+<body oninput="autoSave()">
 
     <!-- شريط الأدوات المطور -->
     <div class="toolbar">
-        <input type="text" id="globalBookTitleInput" placeholder="اكتب اسم الكتاب هنا..." value="الداء والدواء" oninput="updateGlobalTitle(this.value)" style="width: 170px;">
+        <input type="text" id="globalBookTitleInput" placeholder="اسم الكتاب..." value="الداء والدواء" style="width: 140px;" oninput="updateGlobalTitle(this.value)">
         
         <select id="colorPicker" onchange="changeTextColor(this.value)">
-            <option value="">لون النص...</option>
+            <option value="">🎨 تلوين النص...</option>
             <option value="#8b4513">بني تراثي</option>
             <option value="#a00000">أحمر داكن</option>
             <option value="#004d40">أخضر غامق</option>
@@ -222,10 +238,19 @@
             <option value="#2b2b2b">أسود فحمي</option>
         </select>
 
-        <button onclick="addFootnoteItem()">➕ إضافة هامش</button>
+        <!-- أزرار المحاذاة الدقيقة لمنع مشاكل المسافات -->
+        <div class="tool-group" title="محاذاة الفقرة المحددة">
+            <button onclick="alignText('right')" title="يمين">➡️</button>
+            <button onclick="alignText('center')" title="توسيط تام بالوسط">🎯 توسيط</button>
+            <button onclick="alignText('left')" title="ليسار">⬅️</button>
+            <button onclick="alignText('justify')" title="ضبط متساوي">⚖️ ضبط</button>
+        </div>
+
+        <button onclick="addFootnoteItem()">➕ هامش</button>
         <button onclick="addNewPage()">📄 صفحة جديدة</button>
         <button onclick="toggleBorder()">🖼️ الإطار</button>
-        <button onclick="window.print()">🖨️ طباعة/PDF</button>
+        <button class="save-btn" onclick="manualSave()">💾 حفظ</button>
+        <button onclick="window.print()" style="background:#5c4b37;">🖨️ طباعة</button>
     </div>
 
     <!-- حاوية الصفحات -->
@@ -239,7 +264,7 @@
                     <span class="header-page-num">1</span>
                 </div>
 
-                <div class="chapter-title" contenteditable="true">
+                <div class="chapter-title" contenteditable="true" style="text-align: center;">
                     [ فصل في فضل الدعاء ]
                 </div>
 
@@ -257,15 +282,20 @@
     </div>
 
 <script>
-    // 1. تحديث اسم الكتاب في جميع الصفحات تلقائياً عند الكتابة في الخانة العلوية
+    // عند فتح الصفحة، تحميل المحفوظات إن وجدت
+    window.addEventListener('DOMContentLoaded', () => {
+        loadBookData();
+    });
+
+    // تحديث اسم الكتاب في جميع الصفحات
     function updateGlobalTitle(newTitle) {
-        const titleElements = document.querySelectorAll('.header-book-title');
-        titleElements.forEach(el => {
+        document.querySelectorAll('.header-book-title').forEach(el => {
             el.innerText = newTitle;
         });
+        autoSave();
     }
 
-    // 2. ترقيم الصفحات تسلسلياً تلقائياً (1, 2, 3...)
+    // ترقيم الصفحات تلقائياً
     function updatePageNumbers() {
         const pages = document.querySelectorAll('.book-page');
         pages.forEach((page, index) => {
@@ -276,7 +306,7 @@
         });
     }
 
-    // 3. إضافة صفحة جديدة تلقائياً مع الاسم الحالي والترقيم التسلسلي
+    // إضافة صفحة جديدة
     function addNewPage() {
         const container = document.getElementById('pagesContainer');
         const currentTitle = document.getElementById('globalBookTitleInput').value || "اسم الكتاب";
@@ -291,11 +321,11 @@
                     <span class="header-book-title">${currentTitle}</span>
                     <span class="header-page-num">1</span>
                 </div>
-                <div class="chapter-title" contenteditable="true">
+                <div class="chapter-title" contenteditable="true" style="text-align: center;">
                     [ عنوان الفصل الجديد ]
                 </div>
                 <div class="page-content" contenteditable="true">
-                    <p>اكتب نص الصفحة هنا... سيبقى الهامش مثبتاً في الأسفل تماماً بغض النظر عن كمية النص.</p>
+                    <p>اكتب نص الصفحة هنا... الهامش سيبقى مثبتاً في الأسفل تماماً.</p>
                 </div>
             </div>
             <div class="footnotes" contenteditable="true">
@@ -304,31 +334,66 @@
         `;
         
         container.appendChild(newPage);
-        updatePageNumbers(); // إعادة حساب التقيمات لكل الصفحات
+        updatePageNumbers();
+        autoSave();
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    // 4. حذف صفحة مع تحديث الترقيم تلقائياً
+    // حذف صفحة
     function deletePage(button) {
         const pages = document.querySelectorAll('.book-page');
         if (pages.length <= 1) {
             alert("لا يمكن حذف الصفحة الوحيدة المتبقية في الكتاب!");
             return;
         }
-        const page = button.closest('.book-page');
-        page.remove();
+        button.closest('.book-page').remove();
         updatePageNumbers();
+        autoSave();
     }
 
-    // 5. تغيير لون النص المظلل
+    // إصلاح وتفعيل تلوين النص المظلل بدقة
     function changeTextColor(color) {
         if (!color) return;
-        document.execCommand('styleWithCSS', false, true);
-        document.execCommand('foreColor', false, color);
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
+        const range = selection.getRangeAt(0);
+        
+        if (range.collapsed) {
+            alert("الرجاء تحديد (تظليل) الكلمة أو العبارة أولاً لتلوينها.");
+            document.getElementById('colorPicker').value = "";
+            return;
+        }
+        
+        const span = document.createElement('span');
+        span.style.color = color;
+        span.appendChild(range.extractContents());
+        range.insertNode(span);
+        
         document.getElementById('colorPicker').value = "";
+        autoSave();
     }
 
-    // 6. إضافة هامش تفاعلي رقم (1) داخل الصفحة الحالية
+    // ميزة التوسيط والمحاذاة الدقيقة للفقرات (تغنيك عن المسافات اليدوية)
+    function alignText(alignment) {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
+        
+        let container = selection.anchorNode;
+        if (container.nodeType === 3) { // نص عادي
+            container = container.parentElement;
+        }
+        
+        // البحث عن أقرب عنصر فقرة أو عنوان
+        const block = container.closest('p, .chapter-title, div');
+        if (block) {
+            block.style.textAlign = alignment;
+            autoSave();
+        } else {
+            alert("الرجاء النقر داخل الفقرة أو العنوان المراد محاذاته.");
+        }
+    }
+
+    // إضافة هامش تفاعلي
     function addFootnoteItem() {
         const selection = window.getSelection();
         if (!selection.rangeCount) return;
@@ -343,7 +408,6 @@
         const existingFootnotes = footnotesArea.querySelectorAll('p');
         const nextFnNum = existingFootnotes.length + 1;
         
-        // إدراج الرقم الصغير في النص
         const sup = document.createElement('sup');
         sup.className = 'footnote-ref';
         sup.innerText = `[${nextFnNum}]`;
@@ -352,19 +416,58 @@
         range.collapse(false);
         range.insertNode(sup);
 
-        // إضافة سطر الهامش بالأسفل لتلك الصفحة بالتحديد
         const newFnP = document.createElement('p');
         newFnP.innerHTML = `(${nextFnNum}) اكتب نص المصدر هنا...`;
         footnotesArea.appendChild(newFnP);
         newFnP.focus();
+        autoSave();
     }
 
-    // 7. تبديل الإطار التراثي لجميع الصفحات
+    // تبديل الإطار التراثي
     function toggleBorder() {
         const pages = document.querySelectorAll('.book-page');
         pages.forEach(page => {
             page.classList.toggle('bordered');
         });
+        autoSave();
+    }
+
+    // الحفظ التلقائي في ذاكرة المتصفح (LocalStorage)
+    function autoSave() {
+        const bookTitle = document.getElementById('globalBookTitleInput').value;
+        const pagesContent = document.getElementById('pagesContainer').innerHTML;
+        const isBordered = document.querySelector('.book-page')?.classList.contains('bordered') || false;
+        
+        const bookData = {
+            title: bookTitle,
+            content: pagesContent,
+            bordered: isBordered
+        };
+        localStorage.setItem('heritageBookSavedData', JSON.stringify(bookData));
+    }
+
+    // زر الحفظ اليدوي مع رسالة تأكيد
+    function manualSave() {
+        autoSave();
+        alert("تم حفظ الكتاب بنجاح تام في المتصفح! 💾 ولن يضيع أي شيء عند تحديث الصفحة.");
+    }
+
+    // استرجاع البيانات المحفوظة عند فتح الصفحة
+    function loadBookData() {
+        const savedData = localStorage.getItem('heritageBookSavedData');
+        if (savedData) {
+            try {
+                const bookData = JSON.parse(savedData);
+                document.getElementById('globalBookTitleInput').value = bookData.title || "الداء والدواء";
+                document.getElementById('pagesContainer').innerHTML = bookData.content || "";
+                if (bookData.bordered) {
+                    document.querySelectorAll('.book-page').forEach(p => p.classList.add('bordered'));
+                }
+                updatePageNumbers();
+            } catch (e) {
+                console.error("خطأ في استرجاع البيانات", e);
+            }
+        }
     }
 </script>
 
