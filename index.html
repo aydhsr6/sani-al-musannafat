@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صانع الكتب التراثي - الإصدار المصحح والمستقر</title>
+    <title>صانع الكتب التراثي - الإصدار المصحح والمستقر نهائياً</title>
     <!-- استدعاء خط أُميري (Amiri) التراثي -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
@@ -100,20 +100,21 @@
             align-items: center;
         }
 
-        /* صفحة الـ A4 المستقرة والمرنة (تم تصحيح الارتفاع والمشكلات البصرية) */
+        /* صفحة الـ A4 الثابتة والآمنة تماماً ضد التمدد أو تكسير الهوامش */
         .book-page {
             background-color: #fdfbf7;
             width: 210mm;
             max-width: 100%;
-            min-height: 297mm;
-            padding: 20mm 20mm;
+            height: 297mm; /* ارتفاع A4 دقيق وثابت لمنع انتقال الهامش */
+            max-height: 297mm;
+            padding: 20mm 20mm 35mm 20mm; /* ترك فراغ سفلي آمن للهامش */
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             border: 2px solid #d4c5b9;
             position: relative;
             box-sizing: border-box;
+            overflow: hidden; /* يمنع خروج النص وتكسر الصفحات */
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* يضمن توزيع العناصر ودفع الهامش للأسفل تلقائياً */
         }
 
         /* الإطار التراثي الاختياري */
@@ -127,6 +128,7 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1;
+            overflow: hidden;
         }
 
         /* رأس الصفحة */
@@ -135,9 +137,9 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 2px solid #c5b39c;
-            padding-bottom: 8px;
-            margin-bottom: 20px;
-            font-size: 15px;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+            font-size: 14px;
             color: #5c4b37;
             font-weight: bold;
         }
@@ -146,40 +148,41 @@
         .chapter-title {
             text-align: center;
             color: #8b4513;
-            font-size: 21px;
+            font-size: 19px;
             font-weight: bold;
-            margin: 10px 0 20px 0;
+            margin: 5px 0 12px 0;
         }
 
         /* نص الصفحة الأساسي */
         .page-content {
-            font-size: 18px;
-            line-height: 2.2;
+            font-size: 17px;
+            line-height: 2.1;
             color: #2b2b2b;
             text-align: justify;
-            flex-grow: 1;
+            overflow: hidden;
         }
 
         .page-content p {
-            margin-bottom: 15px;
-            text-indent: 25px;
+            margin-bottom: 10px;
+            text-indent: 20px;
         }
 
-        /* قسم الهوامش والتخريجات (مستقر تماماً في أسفل الصفحة ودون تداخل) */
+        /* قسم الهوامش والتخريجات (مستقر وثابت في أسفل الصفحة تماماً ودون نزول للورقة التالية) */
         .footnotes {
-            margin-top: 30px;
+            position: absolute;
+            bottom: 12mm;
+            left: 20mm;
+            right: 20mm;
             border-top: 1px solid #d4c5b9;
-            padding-top: 10px;
-            font-size: 13px;
+            padding-top: 6px;
+            font-size: 12px;
             color: #555;
-            line-height: 1.6;
-            background-color: rgba(212, 197, 185, 0.05);
-            padding: 8px 10px;
-            border-radius: 4px;
+            line-height: 1.5;
+            background-color: #fdfbf7;
         }
 
         .footnotes p {
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         /* أرقام الهوامش العلوية */
@@ -215,7 +218,7 @@
             border-radius: 3px;
         }
 
-        /* تخصيص الطباعة للالتزام التام بصفحات A4 */
+        /* تخصيص الطباعة وتصدير PDF للالتزام التام بصفحات A4 */
         @media print {
             body {
                 background: none;
@@ -231,8 +234,9 @@
                 box-shadow: none;
                 border: none;
                 margin: 0;
+                height: 297mm;
                 page-break-after: always;
-                min-height: 297mm;
+                break-after: page;
             }
         }
     </style>
