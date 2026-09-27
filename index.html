@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صانع الكتب التراثي - الإصدار المستقر نهائياً</title>
+    <title>صانع الكتب التراثي - الهوامش المدمجة ضمن النص</title>
     <!-- استدعاء خط أُميري (Amiri) التراثي -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
@@ -100,20 +100,18 @@
             align-items: center;
         }
 
-        /* صفحة الـ A4 الثابتة والآمنة تماماً ضد تكرار الصفحات البيضاء */
+        /* صفحة الـ A4 المرنة بدون قيود ارتفاع صارمة تسبب صفحات فارغة */
         .book-page {
             background-color: #fdfbf7;
             width: 210mm;
             max-width: 100%;
-            height: 297mm; /* الارتفاع القياسي الدقيق للـ A4 */
-            max-height: 297mm;
-            padding: 18mm 18mm 15mm 18mm; /* هوامش داخلية متوازنة تمنع أي تجاوز */
+            min-height: 297mm;
+            padding: 20mm 20mm 20mm 20mm;
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             border: 2px solid #d4c5b9;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* يوزع العناصر داخل مساحة A4 بدقة ويمنع هروب الهامش لصفحة جديدة */
             position: relative;
             page-break-after: always;
             break-after: page;
@@ -125,7 +123,7 @@
             border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cpath d='M0 0h50v50H0z' fill='none'/%3E%3Cpath d='M2 2v46h46V2H2zm2 2h42v42H4V4z' fill='%238b4513'/%3E%3C/svg%3E") 20 stretch;
         }
 
-        /* منطقة المحتوى العلوي */
+        /* منطقة المحتوى */
         .page-main-area {
             display: flex;
             flex-direction: column;
@@ -138,8 +136,8 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 2px solid #c5b39c;
-            padding-bottom: 5px;
-            margin-bottom: 12px;
+            padding-bottom: 6px;
+            margin-bottom: 15px;
             font-size: 14px;
             color: #5c4b37;
             font-weight: bold;
@@ -149,47 +147,42 @@
         .chapter-title {
             text-align: center;
             color: #8b4513;
-            font-size: 18px;
+            font-size: 19px;
             font-weight: bold;
-            margin: 5px 0 12px 0;
+            margin: 5px 0 15px 0;
         }
 
         /* نص الصفحة الأساسي */
         .page-content {
-            font-size: 16.5px;
-            line-height: 2.0;
+            font-size: 17px;
+            line-height: 2.2;
             color: #2b2b2b;
             text-align: justify;
         }
 
         .page-content p {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             text-indent: 20px;
         }
 
-        /* قسم الهوامش والتخريجات (مستقر وآمن في أسفل الصفحة تماماً ضمن نفس الـ A4) */
-        .footnotes {
-            border-top: 1px solid #d4c5b9;
-            padding-top: 8px;
-            font-size: 11.5px;
-            color: #555;
-            line-height: 1.4;
-            background-color: rgba(212, 197, 185, 0.05);
-            border-radius: 4px;
-            margin-top: auto; /* يجبر الهامش على الاستقرار في أسفل مساحة الصفحة بدقة */
+        /* تنسيق الهامش المدمج داخل النص (بلون مميز وحجم أصغر) */
+        .inline-footnote {
+            color: #a04000; /* لون تراثي مميز للهامش المدمج */
+            font-size: 0.9em;
+            display: block;
+            margin: 4px 0 10px 15px;
+            padding-right: 10px;
+            border-right: 2px solid #c5b39c;
+            line-height: 1.6;
         }
 
-        .footnotes p {
-            margin-bottom: 3px;
-        }
-
-        /* أرقام الهوامش العلوية */
+        /* أرقام الهوامش */
         .footnote-ref {
             color: #8b4513;
             font-weight: bold;
             text-decoration: none;
             padding: 0 2px;
-            font-size: 0.8em;
+            font-size: 0.85em;
         }
 
         /* زر حذف الصفحة */
@@ -232,7 +225,7 @@
                 box-shadow: none;
                 border: none;
                 margin: 0;
-                height: 297mm;
+                min-height: 297mm;
                 page-break-after: always;
                 break-after: page;
             }
@@ -262,7 +255,7 @@
             <button onclick="alignText('justify')" title="ضبط" onmousedown="event.preventDefault()">⚖️ ضبط</button>
         </div>
 
-        <button onclick="addFootnoteItem()">➕ هامش</button>
+        <button onclick="addInlineFootnote()" style="background: #a04000;">➕ هامش ضمني</button>
         <button onclick="addNewPage()">📄 صفحة</button>
         <button onclick="toggleBorder()">🖼️ الإطار</button>
         <button class="save-btn" onclick="manualSave()">💾 حفظ</button>
@@ -285,14 +278,12 @@
                 </div>
 
                 <div class="page-content" contenteditable="true">
-                    <p>الدعاء من أنفع الأدوية، وهو عدو البلاء، يدافعه ويعالجه، ويمنع نزوله، ويرفعه، أو يخففه إذا نزل، وهو سلاح المؤمن <sup class="footnote-ref">[1]</sup>. وكما أن للبلاء مقامات، فللدعاء أيضاً تأثيرات عجيبة في دفع البلاء أو تخفيفه.</p>
-                    <p>وهنا أمر يجب التفطن له، وهو أن الأذكار والآيات والأدعية التي يُستشفى بها هي في نفسها نافعة شافية <sup class="footnote-ref">[2]</sup>.</p>
+                    <p>الدعاء من أنفع الأدوية، وهو عدو البلاء، يدافعه ويعالجه، ويمنع نزوله، ويرفعه، أو يخففه إذا نزل، وهو سلاح المؤمن <sup class="footnote-ref">[1]</sup>.</p>
+                    <span class="inline-footnote">(1) أخرجه مسلم، كتاب الزكاة، برقم (1015).</span>
+                    
+                    <p>وكما أن للبلاء مقامات، فللدعاء أيضاً تأثيرات عجيبة في دفع البلاء أو تخفيفه، والأذكار والآيات التي يُستشفى بها هي في نفسها نافعة شافية <sup class="footnote-ref">[2]</sup>.</p>
+                    <span class="inline-footnote">(2) أخرجه الحاكم (492/1).</span>
                 </div>
-            </div>
-
-            <div class="footnotes" contenteditable="true">
-                <p>(1) أخرجه مسلم، كتاب الزكاة، برقم (1015).</p>
-                <p>(2) أخرجه الحاكم (492/1).</p>
             </div>
         </div>
     </div>
@@ -338,10 +329,8 @@
                 </div>
                 <div class="page-content" contenteditable="true">
                     <p>اكتب نص الصفحة هنا...</p>
+                    <span class="inline-footnote">(1) اكتب نص الهامش هنا...</span>
                 </div>
-            </div>
-            <div class="footnotes" contenteditable="true">
-                <p>(1) اكتب تفاصيل الهامش أو التخريج هنا...</p>
             </div>
         `;
         
@@ -397,32 +386,27 @@
         }
     }
 
-    function addFootnoteItem() {
+    function addInlineFootnote() {
         const selection = window.getSelection();
         if (!selection.rangeCount) return;
         
-        const activePage = selection.anchorNode.parentElement.closest('.book-page');
+        const activePage = selection.anchorNode.parentElement.closest('.page-content');
         if (!activePage) {
-            alert("الرجاء النقر داخل نص الصفحة المحددة لإضافة الهامش.");
+            alert("الرجاء النقر داخل نص الصفحة (page-content) لإضافة الهامش الضمني.");
             return;
         }
 
-        const footnotesArea = activePage.querySelector('.footnotes');
-        const existingFootnotes = footnotesArea.querySelectorAll('p');
-        const nextFnNum = existingFootnotes.length + 1;
-        
-        const sup = document.createElement('sup');
-        sup.className = 'footnote-ref';
-        sup.innerText = `[${nextFnNum}]`;
-        
+        const noteText = prompt("أدخل نص الهامش أو التخريج:", "(رقم) المصدر هنا...");
+        if (!noteText) return;
+
+        const noteSpan = document.createElement('span');
+        noteSpan.className = 'inline-footnote';
+        noteSpan.innerText = noteText;
+        noteSpan.setAttribute('contenteditable', 'true');
+
         const range = selection.getRangeAt(0);
         range.collapse(false);
-        range.insertNode(sup);
-
-        const newFnP = document.createElement('p');
-        newFnP.innerHTML = `(${nextFnNum}) اكتب نص المصدر هنا...`;
-        footnotesArea.appendChild(newFnP);
-        newFnP.focus();
+        range.insertNode(noteSpan);
         autoSave();
     }
 
