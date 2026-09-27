@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صانع الكتب التراثي - الإصدار النهائي المستقر</title>
+    <title>صانع الكتب التراثي - الإصدار المستقر نهائياً</title>
     <!-- استدعاء خط أُميري (Amiri) التراثي -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
@@ -100,20 +100,23 @@
             align-items: center;
         }
 
-        /* صفحة الـ A4 المتوازنة بدقة لمنع انتقال الهامش أو اختفاء النصوص */
+        /* صفحة الـ A4 الثابتة والآمنة تماماً ضد تكرار الصفحات البيضاء */
         .book-page {
             background-color: #fdfbf7;
             width: 210mm;
             max-width: 100%;
-            height: 297mm; /* الارتفاع القياسي للـ A4 */
-            padding: 15mm 15mm 18mm 15mm; /* هوامش داخلية متوازنة تضمن عدم تجاوز الصفحة */
+            height: 297mm; /* الارتفاع القياسي الدقيق للـ A4 */
+            max-height: 297mm;
+            padding: 18mm 18mm 15mm 18mm; /* هوامش داخلية متوازنة تمنع أي تجاوز */
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             border: 2px solid #d4c5b9;
-            position: relative;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* توزيع احترافي يضمن بقاء الهامش في الأسفل تماماً */
+            justify-content: space-between; /* يوزع العناصر داخل مساحة A4 بدقة ويمنع هروب الهامش لصفحة جديدة */
+            position: relative;
+            page-break-after: always;
+            break-after: page;
         }
 
         /* الإطار التراثي الاختياري */
@@ -136,7 +139,7 @@
             align-items: center;
             border-bottom: 2px solid #c5b39c;
             padding-bottom: 5px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-size: 14px;
             color: #5c4b37;
             font-weight: bold;
@@ -148,7 +151,7 @@
             color: #8b4513;
             font-size: 18px;
             font-weight: bold;
-            margin: 5px 0 10px 0;
+            margin: 5px 0 12px 0;
         }
 
         /* نص الصفحة الأساسي */
@@ -164,20 +167,20 @@
             text-indent: 20px;
         }
 
-        /* قسم الهوامش والتخريجات (مستقر وآمن في أسفل الصفحة تماماً ودون اقتطاع) */
+        /* قسم الهوامش والتخريجات (مستقر وآمن في أسفل الصفحة تماماً ضمن نفس الـ A4) */
         .footnotes {
             border-top: 1px solid #d4c5b9;
-            padding-top: 6px;
+            padding-top: 8px;
             font-size: 11.5px;
             color: #555;
             line-height: 1.4;
             background-color: rgba(212, 197, 185, 0.05);
             border-radius: 4px;
-            margin-top: 10px;
+            margin-top: auto; /* يجبر الهامش على الاستقرار في أسفل مساحة الصفحة بدقة */
         }
 
         .footnotes p {
-            margin-bottom: 2px;
+            margin-bottom: 3px;
         }
 
         /* أرقام الهوامش العلوية */
