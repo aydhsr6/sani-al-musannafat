@@ -377,7 +377,7 @@ body{
                style="width:170px"
                oninput="updateGlobalTitle(this.value)">
         <button onclick="addNewPage()">📄 صفحة جديدة</button>
-        <button type="button" onclick="addFootnote()" onpointerdown="saveSelection()" ontouchstart="saveSelection()">¹ حاشية</button>
+        <button onclick="addFootnote()" onpointerdown="saveSelection()">¹ حاشية</button>
     </div>
 
     <div class="toolbar-divider"></div>
@@ -652,112 +652,72 @@ function getSelectionElement(node){
 
 function findParentParagraph(node){
     let el = getSelectionElement(node);
+
     while(el){
         if(el.matches && el.matches("p")) return el;
         el = el.parentElement;
     }
+
     return null;
 }
 
-/*
-   حل مشكلة أندرويد: لا نعتمد على window.getSelection() وحده.
-   نحفظ الفقرة نفسها وموضع المؤشر، لأن الضغط على زر الحاشية
-   قد يجعل المتصفح يفقد الـ Range قبل تنفيذ onclick.
-*/
-let selectedRange = null;
-let savedParagraph = null;
-let savedOffset = 0;
-
+/* حفظ موضع المؤشر فقط إذا كان داخل نص الكتاب */
 function saveSelection(){
     const sel = window.getSelection();
+
     if(!sel || !sel.rangeCount) return;
 
     const range = sel.getRangeAt(0);
-    const paragraph = findParentParagraph(range.startContainer);
+    const startEl = getSelectionElement(range.startContainer);
 
-    if(!paragraph) return;
-
-    const editor = paragraph.closest(".page-content[contenteditable='true']");
-    if(!editor) return;
+    if(
+        !startEl ||
+        !startEl.closest ||
+        !startEl.closest(".page-content[contenteditable='true']")
+    ){
+        return;
+    }
 
     selectedRange = range.cloneRange();
-    savedParagraph = paragraph;
-    savedOffset = getCharacterOffset(paragraph, range.startContainer, range.startOffset);
-}
-
-function getCharacterOffset(root, container, offset){
-    const r = document.createRange();
-    r.selectNodeContents(root);
-    r.setEnd(container, offset);
-    return r.toString().length;
 }
 
 function restoreSelection(){
-    if(selectedRange){
-        try{
-            const sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(selectedRange);
-            return true;
-        }catch(e){
-            console.warn("تعذر استعادة Range", e);
-        }
+    if(!selectedRange) return false;
+
+    try{
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(selectedRange);
+        return true;
+    }catch(error){
+        console.warn("تعذر استعادة موضع المؤشر:", error);
+        return false;
     }
-
-    /* طريقة احتياطية خاصة بالهاتف */
-    if(savedParagraph && document.contains(savedParagraph)){
-        const range = document.createRange();
-        const walker = document.createTreeWalker(savedParagraph, NodeFilter.SHOW_TEXT);
-        let node;
-        let remaining = savedOffset;
-        let lastText = null;
-
-        while(node = walker.nextNode()){
-            lastText = node;
-            if(remaining <= node.nodeValue.length){
-                range.setStart(node, remaining);
-                range.collapse(true);
-                const sel = window.getSelection();
-                sel.removeAllRanges();
-                sel.addRange(range);
-                selectedRange = range.cloneRange();
-                return true;
-            }
-            remaining -= node.nodeValue.length;
-        }
-
-        if(lastText){
-            range.setStart(lastText, lastText.nodeValue.length);
-            range.collapse(true);
-            const sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-            selectedRange = range.cloneRange();
-            return true;
-        }
-    }
-
-    return false;
-}
-
-function captureEditorPosition(){
-    setTimeout(saveSelection, 0);
 }
 
 document.addEventListener("selectionchange", () => {
-    const sel = window.getSelection();
-    if(!sel || !sel.rangeCount) return;
+    const active = document.activeElement;
 
-    const paragraph = findParentParagraph(sel.getRangeAt(0).startContainer);
-    if(paragraph && paragraph.closest(".page-content[contenteditable='true']")){
+    if(
+        active &&
+        active.closest &&
+        active.closest(".page-content[contenteditable='true']")
+    ){
         saveSelection();
     }
 });
 
-document.addEventListener("mouseup", captureEditorPosition, true);
-document.addEventListener("touchend", captureEditorPosition, true);
-document.addEventListener("keyup", captureEditorPosition, true);
-document.addEventListener("focusin", captureEditorPosition, true);
+document.addEventListener("pointerup", event => {
+    const target = event.target;
+
+    if(
+        target &&
+        target.closest &&
+        target.closest(".page-content[contenteditable='true']")
+    ){
+        setTimeout(saveSelection, 0);
+    }
+});
 
 /* -------------------- التنسيق -------------------- */
 
@@ -766,6 +726,7 @@ function changeTextColor(color){
         alert("حدد النص أو ضع المؤشر داخل النص أولًا.");
         return;
     }
+
     document.execCommand("foreColor", false, color);
     scheduleSave();
 }
@@ -775,6 +736,7 @@ function formatText(command){
         alert("حدد النص أو ضع المؤشر داخل النص أولًا.");
         return;
     }
+
     document.execCommand(command, false, null);
     scheduleSave();
 }
@@ -784,6 +746,7 @@ function removeFormatting(){
         alert("حدد النص أو ضع المؤشر داخل النص أولًا.");
         return;
     }
+
     document.execCommand("removeFormat", false, null);
     scheduleSave();
 }
@@ -801,8 +764,10 @@ function alignText(alignment){
         justify:"justifyFull"
     };
 
-    document.execCommand(commandMap[alignment], false, null);
-    scheduleSave();
+    if(commandMap[alignment]){
+        document.execCommand(commandMap[alignment], false, null);
+        scheduleSave();
+    }
 }
 
 /* -------------------- الإطار -------------------- */
@@ -811,6 +776,7 @@ function toggleBorder(){
     document.querySelectorAll(".book-page").forEach(page => {
         page.classList.toggle("bordered");
     });
+
     autoSave();
 }
 
@@ -818,59 +784,75 @@ function toggleBorder(){
 
 function getNextFootnoteNumber(){
     let max = 0;
+
     document.querySelectorAll(".note-ref").forEach(ref => {
         max = Math.max(max, Number(ref.dataset.note) || 0);
     });
+
     document.querySelectorAll(".footnote").forEach(note => {
         max = Math.max(max, Number(note.dataset.noteId) || 0);
     });
+
     return max + 1;
 }
 
 function addFootnote(){
-    /* استعادة آخر موضع محفوظ حتى لو فقد أندرويد المؤشر */
-    if(!restoreSelection()){
-        alert("اضغط داخل الفقرة النصية أولًا، ثم اضغط «¹ حاشية».");
+    /*
+        على الهاتف قد يفقد المتصفح window.getSelection()
+        بمجرد الضغط على زر الحاشية.
+        لذلك نعتمد على selectedRange المحفوظ مسبقًا.
+    */
+    if(!selectedRange){
+        saveSelection();
+    }
+
+    if(!selectedRange){
+        alert("اضغط داخل الفقرة التي تريد إضافة الحاشية إليها أولًا.");
         return;
     }
 
-    const sel = window.getSelection();
-    if(!sel || !sel.rangeCount){
-        alert("اضغط داخل الفقرة النصية أولًا، ثم اضغط «¹ حاشية».");
-        return;
-    }
-
-    const range = sel.getRangeAt(0);
-    const paragraph = findParentParagraph(range.startContainer) || savedParagraph;
+    const paragraph = findParentParagraph(selectedRange.startContainer);
 
     if(!paragraph){
-        alert("ضع المؤشر داخل فقرة نصية حقيقية (الفقرة التي تبدأ بـ <p>) ثم اضغط «¹ حاشية».");
+        alert("ضع المؤشر داخل فقرة نصية، ثم اضغط «¹ حاشية».");
         return;
     }
 
     const page = paragraph.closest(".book-page");
+
     if(!page){
         alert("تعذر تحديد صفحة الكتاب.");
         return;
     }
 
+    if(!restoreSelection()){
+        alert("تعذر استعادة موضع المؤشر. اضغط داخل الفقرة مرة أخرى.");
+        return;
+    }
+
+    const sel = window.getSelection();
+    const range = sel.getRangeAt(0);
     const number = getNextFootnoteNumber();
+
     const ref = document.createElement("sup");
     ref.className = "note-ref";
     ref.dataset.note = number;
     ref.textContent = `[${number}]`;
 
-    /* نضع رقم الحاشية بالضبط عند موضع المؤشر */
+    /* إدراج رقم الحاشية في موضع المؤشر */
     range.collapse(false);
     range.insertNode(ref);
 
-    const after = document.createRange();
-    after.setStartAfter(ref);
-    after.collapse(true);
+    /* وضع المؤشر بعد رقم الحاشية */
+    const caret = document.createRange();
+    caret.setStartAfter(ref);
+    caret.collapse(true);
+
     sel.removeAllRanges();
-    sel.addRange(after);
+    sel.addRange(caret);
 
     let footnotes = page.querySelector(".footnotes");
+
     if(!footnotes){
         footnotes = document.createElement("div");
         footnotes.className = "footnotes";
@@ -880,11 +862,12 @@ function addFootnote(){
     const note = document.createElement("div");
     note.className = "footnote";
     note.dataset.noteId = number;
+
     note.innerHTML = `
         <span class="footnote-number">(${number})</span>
         <span contenteditable="true">اكتب نص الحاشية هنا...</span>
         <span class="footnote-actions">
-            <button type="button" onclick="removeFootnote(this)">حذف</button>
+            <button onclick="removeFootnote(this)">حذف</button>
         </span>
     `;
 
@@ -896,12 +879,16 @@ function addFootnote(){
     const noteRange = document.createRange();
     noteRange.selectNodeContents(editable);
     noteRange.collapse(false);
+
     sel.removeAllRanges();
     sel.addRange(noteRange);
 
+    /*
+        نلغي selectedRange حتى لا تُضاف الحاشية التالية بالخطأ داخل الحاشية.
+        يجب على المستخدم أن يضع المؤشر داخل الفقرة المطلوبة من جديد.
+    */
     selectedRange = null;
-    savedParagraph = null;
-    savedOffset = 0;
+
     scheduleSave();
 }
 
@@ -913,14 +900,13 @@ function removeFootnote(button){
     const page = note.closest(".book-page");
 
     if(page){
-        page.querySelectorAll(`.note-ref[data-note="${CSS.escape(id)}"]`)
-            .forEach(ref => ref.remove());
+        page.querySelectorAll(
+            `.note-ref[data-note="${CSS.escape(id)}"]`
+        ).forEach(ref => ref.remove());
     }
 
     note.remove();
     selectedRange = null;
-    savedParagraph = null;
-    savedOffset = 0;
     scheduleSave();
 }
 
