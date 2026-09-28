@@ -3,13 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>صانع الكتب التراثي</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
     --paper:#fdfbf7;
     --ink:#2b2b2b;
@@ -20,12 +18,9 @@
     --bg:#2c241d;
 }
 
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
-html,
-body{
+html,body{
     margin:0;
     padding:0;
     min-height:100%;
@@ -40,11 +35,6 @@ body{
     align-items:center;
 }
 
-
-/* =========================
-   شريط الأدوات
-========================= */
-
 .toolbar{
     width:min(1100px,100%);
     background:#fdfbf7;
@@ -52,16 +42,13 @@ body{
     border:2px solid var(--line);
     border-radius:10px;
     box-shadow:0 5px 18px rgba(0,0,0,.28);
-
     display:flex;
     gap:7px;
     align-items:center;
     flex-wrap:wrap;
-
     position:sticky;
     top:8px;
     z-index:1000;
-
     margin-bottom:25px;
 }
 
@@ -109,21 +96,10 @@ body{
     font-size:13px;
 }
 
-.toolbar button:hover{
-    background:var(--brown-dark);
-}
-
-.toolbar .save-btn{
-    background:#004d40;
-}
-
-.toolbar .save-btn:hover{
-    background:#00251a;
-}
-
-.toolbar .danger{
-    background:#8f1d1d;
-}
+.toolbar button:hover{background:var(--brown-dark)}
+.toolbar .save-btn{background:#004d40}
+.toolbar .save-btn:hover{background:#00251a}
+.toolbar .danger{background:#8f1d1d}
 
 .tool-group{
     display:flex;
@@ -144,11 +120,6 @@ body{
     box-shadow:0 1px 4px rgba(0,0,0,.2);
 }
 
-
-/* =========================
-   الصفحات
-========================= */
-
 #pagesContainer{
     width:100%;
     display:flex;
@@ -157,262 +128,133 @@ body{
     gap:40px;
 }
 
-
-/* صفحة A4 */
-
+/* صفحة A4 حقيقية وثابتة */
 .book-page{
     width:210mm;
     height:297mm;
     min-height:297mm;
     max-height:297mm;
-
     background:var(--paper);
-
     padding:20mm;
-
     border:2px solid #d4c5b9;
-
     box-shadow:0 8px 25px rgba(0,0,0,.3);
-
     position:relative;
-
     display:flex;
     flex-direction:column;
-
     overflow:hidden;
-
     flex-shrink:0;
 
     page-break-after:always;
     break-after:page;
-
     page-break-inside:avoid;
     break-inside:avoid;
 }
 
-
-/* إطار الصفحة */
-
 .book-page.bordered{
     border:10px solid transparent;
-
-    border-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cpath d='M0 0h50v50H0z' fill='none'/%3E%3Cpath d='M2 2v46h46V2H2zm2 2h42v42H4V4z' fill='%238b4513'/%3E%3C/svg%3E")
-        20 stretch;
+    border-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cpath d='M0 0h50v50H0z' fill='none'/%3E%3Cpath d='M2 2v46h46V2H2zm2 2h42v42H4V4z' fill='%238b4513'/%3E%3C/svg%3E") 20 stretch;
 }
-
-
-/* رأس الصفحة */
 
 .page-header{
     flex:0 0 auto;
-
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     border-bottom:2px solid var(--line);
-
     padding-bottom:6px;
     margin-bottom:13px;
-
     font-size:14px;
-
     color:#5c4b37;
-
     font-weight:bold;
 }
-
-
-/* عنوان الفصل */
 
 .chapter-title{
     flex:0 0 auto;
-
     text-align:center;
-
     color:var(--brown);
-
     font-size:19px;
-
     font-weight:bold;
-
     margin:4px 0 12px;
-
     outline:none;
 }
 
-
-/* محتوى الصفحة */
-
 .page-content{
     flex:1 1 auto;
-
     min-height:0;
-
     overflow:hidden;
-
     font-size:17px;
-
     line-height:2.15;
-
     color:var(--ink);
-
     text-align:justify;
-
     outline:none;
 }
 
 .page-content p{
     margin:0 0 9px;
-
     text-indent:20px;
-
     break-inside:avoid;
-
     page-break-inside:avoid;
 }
 
-.page-content p:last-child{
-    margin-bottom:0;
+.page-content p:last-child{margin-bottom:0}
+
+.page-content .no-indent{ text-indent:0 }
+
+.inline-note{
+    color:#a04000;
+    font-size:.9em;
 }
-
-.page-content .no-indent{
-    text-indent:0;
-}
-
-
-/* =========================
-   رقم الحاشية داخل النص
-========================= */
-
-.note-ref{
-    color:var(--brown);
-    font-weight:bold;
-    font-size:.72em;
-
-    line-height:0;
-
-    vertical-align:super;
-
-    cursor:pointer;
-
-    margin:0 2px;
-
-    user-select:none;
-}
-
-
-/* =========================
-   الحواشي
-========================= */
 
 .footnotes{
     flex:0 0 auto;
-
     margin-top:7px;
-
     padding-top:6px;
-
     border-top:1px solid #c5b39c;
-
     font-size:11px;
-
     line-height:1.75;
-
     color:#4b4034;
-
     max-height:42mm;
-
     overflow:hidden;
 }
 
 .footnote{
     margin:0 0 2px;
-
     break-inside:avoid;
-
     page-break-inside:avoid;
 }
 
 .footnote-number{
     font-weight:bold;
-
     margin-left:3px;
 }
 
 .footnote-actions{
     display:none;
-
     margin-right:7px;
 }
 
-.footnote:hover .footnote-actions{
-    display:inline;
-}
-
-.footnote-actions button{
-    font-family:"Amiri",serif;
-
-    background:#8f1d1d;
-
-    color:white;
-
-    border:0;
-
-    border-radius:3px;
-
-    padding:1px 5px;
-
-    cursor:pointer;
-
-    font-size:10px;
-}
-
-
-/* =========================
-   أزرار حذف الصفحة
-========================= */
+.footnote:hover .footnote-actions{display:inline}
 
 .delete-page-btn{
     position:absolute;
-
     top:7px;
     left:7px;
-
     background:#a00000;
-
     color:#fff;
-
     border:0;
-
     padding:3px 7px;
-
     border-radius:4px;
-
     cursor:pointer;
-
     font-family:"Amiri",serif;
-
     font-size:11px;
-
     display:none;
-
     z-index:20;
 }
 
-.book-page:hover .delete-page-btn{
-    display:block;
-}
-
-
-/* =========================
-   التحرير
-========================= */
+.book-page:hover .delete-page-btn{display:block}
 
 [contenteditable=true]:focus{
     outline:1px dashed rgba(139,69,19,.25);
-
     outline-offset:2px;
 }
 
@@ -420,50 +262,27 @@ body{
     background:rgba(139,69,19,.02);
 }
 
-
-/* =========================
-   أسفل الموقع
-========================= */
-
 .site-signature{
     width:min(1100px,100%);
-
     text-align:center;
-
     color:#d8c7ad;
-
     font-family:"Amiri",serif;
-
     font-size:18px;
-
     font-weight:700;
-
     margin:8px 0 2px;
-
     text-shadow:0 1px 2px rgba(0,0,0,.45);
 }
 
 .status{
     width:min(1100px,100%);
-
     color:#fdfbf7;
-
     text-align:center;
-
     margin-top:12px;
-
     font-size:13px;
-
     opacity:.9;
 }
 
-
-/* =========================
-   الهاتف
-========================= */
-
 @media(max-width:850px){
-
     .toolbar-section{
         width:100%;
     }
@@ -473,47 +292,31 @@ body{
         height:1px;
     }
 
-    body{
-        padding:10px 0 30px;
-    }
-
+    body{padding:10px 0 30px}
     .toolbar{
         position:relative;
         top:auto;
-
         border-radius:0;
-
         margin-bottom:15px;
     }
-
-    #pagesContainer{
-        gap:15px;
-    }
-
+    #pagesContainer{gap:15px}
     .book-page{
         width:210mm;
-
         transform-origin:top center;
+        /* العرض سيُصغّر بصريًا عبر JS على الشاشات الصغيرة */
     }
 }
 
-
-/* =========================
-   الطباعة / PDF
-========================= */
-
+/* الطباعة / PDF */
 @media print{
-
     @page{
         size:A4;
         margin:0;
     }
 
-    html,
-    body{
+    html,body{
         margin:0 !important;
         padding:0 !important;
-
         background:#fff !important;
     }
 
@@ -527,43 +330,28 @@ body{
 
     #pagesContainer{
         display:block;
-
         width:210mm;
-
         margin:0;
-
         padding:0;
     }
 
     .book-page{
         width:210mm !important;
-
         height:297mm !important;
-
         min-height:297mm !important;
-
         max-height:297mm !important;
-
         margin:0 !important;
-
         padding:20mm !important;
-
         box-shadow:none !important;
-
         overflow:hidden !important;
-
         page-break-after:always !important;
-
         break-after:page !important;
-
         page-break-inside:avoid !important;
-
         break-inside:avoid !important;
     }
 
     .book-page:last-child{
         page-break-after:auto !important;
-
         break-after:auto !important;
     }
 
@@ -572,317 +360,105 @@ body{
         overflow:hidden !important;
     }
 
-    .note-ref{
-        color:#000 !important;
-    }
 }
-
 </style>
 </head>
 
-
 <body oninput="scheduleSave()">
-
-
-<!-- =========================
-     شريط الأدوات
-========================= -->
 
 <div class="toolbar">
 
     <div class="toolbar-section book-tools">
-
-        <span class="toolbar-label">
-            الكتاب
-        </span>
-
-        <input
-            id="globalBookTitleInput"
-            type="text"
-            value="الداء والدواء"
-            placeholder="اسم الكتاب"
-            style="width:170px"
-            oninput="updateGlobalTitle(this.value)"
-        >
-
-        <button onclick="addNewPage()">
-            📄 صفحة جديدة
-        </button>
-
-        <!--
-            مهم:
-            onmousedown preventDefault يمنع زر الحاشية
-            من سرقة المؤشر قبل استرجاعه.
-        -->
-        <button
-            onclick="addFootnote()"
-            onmousedown="event.preventDefault()"
-        >
-            ¹ حاشية
-        </button>
-
+        <span class="toolbar-label">الكتاب</span>
+        <input id="globalBookTitleInput"
+               type="text"
+               value="الداء والدواء"
+               placeholder="اسم الكتاب"
+               style="width:170px"
+               oninput="updateGlobalTitle(this.value)">
+        <button onclick="addNewPage()">📄 صفحة جديدة</button>
+        <button onclick="addFootnote()" onpointerdown="saveSelection()">¹ حاشية</button>
     </div>
 
-
     <div class="toolbar-divider"></div>
-
 
     <div class="toolbar-section edit-tools">
+        <span class="toolbar-label">تنسيق</span>
 
-        <span class="toolbar-label">
-            تنسيق
-        </span>
-
-
-        <div
-            class="tool-group"
-            title="تلوين النص المحدد"
-        >
-
-            <div
-                class="color-btn"
-                style="background:#8b4513"
-                title="بني"
-                onmousedown="event.preventDefault();changeTextColor('#8b4513')"
-            ></div>
-
-            <div
-                class="color-btn"
-                style="background:#a04000"
-                title="بني محروق"
-                onmousedown="event.preventDefault();changeTextColor('#a04000')"
-            ></div>
-
-            <div
-                class="color-btn"
-                style="background:#a00000"
-                title="أحمر داكن"
-                onmousedown="event.preventDefault();changeTextColor('#a00000')"
-            ></div>
-
-            <div
-                class="color-btn"
-                style="background:#004d40"
-                title="أخضر"
-                onmousedown="event.preventDefault();changeTextColor('#004d40')"
-            ></div>
-
-            <div
-                class="color-btn"
-                style="background:#2b2b2b"
-                title="أسود"
-                onmousedown="event.preventDefault();changeTextColor('#2b2b2b')"
-            ></div>
-
+        <div class="tool-group" title="تلوين النص المحدد">
+            <div class="color-btn" style="background:#8b4513" title="بني" onmousedown="event.preventDefault();changeTextColor('#8b4513')"></div>
+            <div class="color-btn" style="background:#a04000" title="بني محروق" onmousedown="event.preventDefault();changeTextColor('#a04000')"></div>
+            <div class="color-btn" style="background:#a00000" title="أحمر داكن" onmousedown="event.preventDefault();changeTextColor('#a00000')"></div>
+            <div class="color-btn" style="background:#004d40" title="أخضر" onmousedown="event.preventDefault();changeTextColor('#004d40')"></div>
+            <div class="color-btn" style="background:#2b2b2b" title="أسود" onmousedown="event.preventDefault();changeTextColor('#2b2b2b')"></div>
         </div>
 
-
-        <div
-            class="tool-group"
-            title="محاذاة"
-        >
-
-            <button
-                onclick="alignText('right')"
-                onmousedown="event.preventDefault()"
-            >
-                يمين
-            </button>
-
-            <button
-                onclick="alignText('center')"
-                onmousedown="event.preventDefault()"
-            >
-                توسيط
-            </button>
-
-            <button
-                onclick="alignText('left')"
-                onmousedown="event.preventDefault()"
-            >
-                يسار
-            </button>
-
-            <button
-                onclick="alignText('justify')"
-                onmousedown="event.preventDefault()"
-            >
-                ضبط
-            </button>
-
+        <div class="tool-group" title="محاذاة">
+            <button onclick="alignText('right')" onmousedown="event.preventDefault()">يمين</button>
+            <button onclick="alignText('center')" onmousedown="event.preventDefault()">توسيط</button>
+            <button onclick="alignText('left')" onmousedown="event.preventDefault()">يسار</button>
+            <button onclick="alignText('justify')" onmousedown="event.preventDefault()">ضبط</button>
         </div>
-
 
         <div class="tool-group">
-
-            <button
-                onclick="formatText('bold')"
-                onmousedown="event.preventDefault()"
-            >
-                عريض
-            </button>
-
-            <button
-                onclick="formatText('italic')"
-                onmousedown="event.preventDefault()"
-            >
-                مائل
-            </button>
-
-            <button
-                onclick="removeFormatting()"
-                onmousedown="event.preventDefault()"
-            >
-                تنظيف
-            </button>
-
+            <button onclick="formatText('bold')" onmousedown="event.preventDefault()">عريض</button>
+            <button onclick="formatText('italic')" onmousedown="event.preventDefault()">مائل</button>
+            <button onclick="removeFormatting()" onmousedown="event.preventDefault()">تنظيف</button>
         </div>
-
     </div>
 
-
     <div class="toolbar-divider"></div>
-
 
     <div class="toolbar-section layout-tools">
-
-        <span class="toolbar-label">
-            الصفحات
-        </span>
-
-        <button onclick="paginateBook()">
-            ↕️ ضبط الصفحات
-        </button>
-
-        <button onclick="toggleBorder()">
-            🖼️ الإطار
-        </button>
-
+        <span class="toolbar-label">الصفحات</span>
+        <button onclick="paginateBook()">↕️ ضبط الصفحات</button>
+        <button onclick="toggleBorder()">🖼️ الإطار</button>
     </div>
-
 
     <div class="toolbar-divider"></div>
 
-
     <div class="toolbar-section file-tools">
-
-        <span class="toolbar-label">
-            الملف
-        </span>
-
-        <button
-            class="save-btn"
-            onclick="manualSave()"
-        >
-            💾 حفظ
-        </button>
-
-        <button
-            onclick="window.print()"
-            style="background:#5c4b37"
-        >
-            🖨️ PDF / طباعة
-        </button>
-
-        <button
-            class="danger"
-            onclick="clearBook()"
-        >
-            مسح الكتاب
-        </button>
-
+        <span class="toolbar-label">الملف</span>
+        <button class="save-btn" onclick="manualSave()">💾 حفظ</button>
+        <button onclick="window.print()" style="background:#5c4b37">🖨️ PDF / طباعة</button>
+        <button class="danger" onclick="clearBook()">مسح الكتاب</button>
     </div>
-
 </div>
-
-
-<!-- =========================
-     الصفحات
-========================= -->
 
 <div id="pagesContainer">
 
+    <div class="book-page" id="page1">
 
-    <div
-        class="book-page"
-        id="page1"
-    >
-
-        <button
-            class="delete-page-btn"
-            onclick="deletePage(this)"
-        >
-            حذف الصفحة
-        </button>
-
+        <button class="delete-page-btn" onclick="deletePage(this)">حذف الصفحة</button>
 
         <div class="page-header">
-
-            <span class="header-book-title">
-                الداء والدواء
-            </span>
-
-            <span class="header-page-num">
-                1
-            </span>
-
+            <span class="header-book-title">الداء والدواء</span>
+            <span class="header-page-num">1</span>
         </div>
 
-
-        <div
-            class="chapter-title"
-            contenteditable="true"
-        >
+        <div class="chapter-title" contenteditable="true">
             [ فصل في فضل الدعاء ]
         </div>
 
-
-        <div
-            class="page-content"
-            contenteditable="true"
-        >
-
+        <div class="page-content" contenteditable="true">
             <p>
                 الدعاء من أنفع الأدوية، وهو عدو البلاء، يدافعه ويعالجه، ويمنع نزوله، ويرفعه، أو يخففه إذا نزل، وهو سلاح المؤمن.
-                <sup
-                    class="note-ref"
-                    data-note="1"
-                >[1]</sup>
+                <sup class="note-ref" data-note="1">[1]</sup>
             </p>
-
 
             <p>
                 وكما أن للبلاء مقامات، فللدعاء أيضاً تأثيرات عجيبة في دفع البلاء أو تخفيفه، والأذكار والآيات التي يُستشفى بها هي في نفسها نافعة شافية.
             </p>
-
         </div>
 
-
         <div class="footnotes">
-
-            <div
-                class="footnote"
-                data-note-id="1"
-            >
-
-                <span class="footnote-number">
-                    (1)
-                </span>
-
-                <span contenteditable="true">
-                    أخرجه مسلم برقم 1015.
-                </span>
-
+            <div class="footnote" data-note-id="1">
+                <span class="footnote-number">(1)</span>
+                <span contenteditable="true">أخرجه مسلم برقم 1015.</span>
                 <span class="footnote-actions">
-
-                    <button onclick="removeFootnote(this)">
-                        حذف
-                    </button>
-
+                    <button onclick="removeFootnote(this)">حذف</button>
                 </span>
-
             </div>
-
         </div>
 
     </div>
@@ -890,1923 +466,808 @@ body{
 </div>
 
 
-<div
-    class="site-signature"
-    aria-label="اسم صاحب الموقع"
->
+<div class="site-signature" aria-label="اسم صاحب الموقع">
     أيوب ضاري سرحان العبيدي
 </div>
 
-
-<div
-    class="status"
-    id="status"
->
-    جاهز — احفظ الكتاب أو صدّره PDF بعد ضبط الصفحات.
-</div>
-
+<div class="status" id="status">جاهز — اضغط داخل الفقرة ثم اختر «¹ حاشية» لإضافة الحاشية في موضع المؤشر.</div>
 
 <script>
-
 "use strict";
 
-
-/* =========================================================
-   المتغيرات العامة
-========================================================= */
-
-const STORAGE_KEY =
-    "heritageBookSavedData_v4";
-
+const STORAGE_KEY = "heritageBookSavedData_v3";
 let saveTimer = null;
-
-/*
-    آخر تحديد / موضع للمؤشر.
-    هذا هو الجزء المهم لإصلاح الحاشية.
-*/
 let selectedRange = null;
 
-
-/* =========================================================
-   الحفظ التلقائي
-========================================================= */
+/* -------------------- حفظ تلقائي -------------------- */
 
 function scheduleSave(){
-
     clearTimeout(saveTimer);
-
     saveTimer = setTimeout(() => {
-
         autoSave();
-
         paginateBook(false);
-
-    },350);
+    }, 350);
 }
 
-
 function autoSave(){
+    const title = document.getElementById("globalBookTitleInput").value || "اسم الكتاب";
+    const content = document.getElementById("pagesContainer").innerHTML;
+    const bordered = document.querySelector(".book-page")?.classList.contains("bordered") || false;
 
-    const title =
-        document.getElementById("globalBookTitleInput").value
-        || "اسم الكتاب";
-
-    const content =
-        document.getElementById("pagesContainer").innerHTML;
-
-    const bordered =
-        document
-        .querySelector(".book-page")
-        ?.classList.contains("bordered")
-        || false;
-
-
-    localStorage.setItem(
-
-        STORAGE_KEY,
-
-        JSON.stringify({
-
-            title,
-
-            content,
-
-            bordered,
-
-            savedAt:new Date().toISOString()
-
-        })
-
-    );
-
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        title,
+        content,
+        bordered,
+        savedAt:new Date().toISOString()
+    }));
 
     setStatus("تم الحفظ تلقائيًا");
 }
 
-
 function manualSave(){
-
     autoSave();
-
     paginateBook(false);
-
     setStatus("تم حفظ الكتاب بنجاح");
 }
 
-
-/* =========================================================
-   تحميل الكتاب
-========================================================= */
-
 function loadBookData(){
-
-    const saved =
-        localStorage.getItem(STORAGE_KEY);
-
+    const saved = localStorage.getItem(STORAGE_KEY);
 
     if(!saved){
-
         updatePageNumbers();
-
         return;
     }
 
-
     try{
+        const data = JSON.parse(saved);
 
-        const data =
-            JSON.parse(saved);
-
-
-        document
-            .getElementById("globalBookTitleInput")
-            .value =
+        document.getElementById("globalBookTitleInput").value =
             data.title || "الداء والدواء";
 
-
-        document
-            .getElementById("pagesContainer")
-            .innerHTML =
+        document.getElementById("pagesContainer").innerHTML =
             data.content || "";
 
-
         if(data.bordered){
-
-            document
-                .querySelectorAll(".book-page")
-                .forEach(page => {
-
-                    page.classList.add("bordered");
-
-                });
-
+            document.querySelectorAll(".book-page").forEach(p => p.classList.add("bordered"));
         }
 
-
         updatePageNumbers();
-
-
-        setTimeout(() => {
-
-            paginateBook(false);
-
-        },100);
-
+        setTimeout(() => paginateBook(false), 100);
 
     }catch(error){
-
         console.error(error);
-
-        alert(
-            "تعذر استرجاع الكتاب المحفوظ."
-        );
-
+        alert("تعذر استرجاع الكتاب المحفوظ.");
     }
-
 }
 
-
-/* =========================================================
-   العنوان والترقيم
-========================================================= */
+/* -------------------- العنوان والترقيم -------------------- */
 
 function updateGlobalTitle(title){
-
-    document
-        .querySelectorAll(".header-book-title")
-        .forEach(el => {
-
-            el.textContent =
-                title || "اسم الكتاب";
-
-        });
-
-
+    document.querySelectorAll(".header-book-title").forEach(el => {
+        el.textContent = title || "اسم الكتاب";
+    });
     scheduleSave();
 }
 
-
 function updatePageNumbers(){
-
-    document
-        .querySelectorAll(".book-page")
-        .forEach((page,index) => {
-
-            const n =
-                page.querySelector(".header-page-num");
-
-            if(n){
-
-                n.textContent =
-                    index + 1;
-
-            }
-
-
-            page.id =
-                "page" + (index + 1);
-
-        });
-
+    document.querySelectorAll(".book-page").forEach((page,index) => {
+        const n = page.querySelector(".header-page-num");
+        if(n) n.textContent = index + 1;
+        page.id = "page" + (index + 1);
+    });
 }
 
-
-/* =========================================================
-   إنشاء صفحة
-========================================================= */
+/* -------------------- الصفحات -------------------- */
 
 function createPage(){
-
     const title =
-        document
-            .getElementById("globalBookTitleInput")
-            .value
-        || "اسم الكتاب";
+        document.getElementById("globalBookTitleInput").value || "اسم الكتاب";
 
-
-    const page =
-        document.createElement("div");
-
-
-    page.className =
-        "book-page";
-
+    const page = document.createElement("div");
+    page.className = "book-page";
 
     const bordered =
-        document
-            .querySelector(".book-page")
-            ?.classList
-            .contains("bordered");
+        document.querySelector(".book-page")?.classList.contains("bordered");
 
-
-    if(bordered){
-
-        page.classList.add("bordered");
-
-    }
-
+    if(bordered) page.classList.add("bordered");
 
     page.innerHTML = `
-
-        <button
-            class="delete-page-btn"
-            onclick="deletePage(this)"
-        >
-            حذف الصفحة
-        </button>
-
+        <button class="delete-page-btn" onclick="deletePage(this)">حذف الصفحة</button>
 
         <div class="page-header">
-
             <span class="header-book-title"></span>
-
             <span class="header-page-num"></span>
-
         </div>
 
-
-        <div
-            class="chapter-title"
-            contenteditable="true"
-        >
+        <div class="chapter-title" contenteditable="true">
             [ عنوان الفصل الجديد ]
         </div>
 
-
-        <div
-            class="page-content"
-            contenteditable="true"
-        >
+        <div class="page-content" contenteditable="true">
             <p>اكتب نص الصفحة هنا...</p>
         </div>
-
 
         <div class="footnotes"></div>
 
     `;
 
-
-    page
-        .querySelector(".header-book-title")
-        .textContent =
-        title;
-
+    page.querySelector(".header-book-title").textContent = title;
 
     return page;
 }
 
-
 function addNewPage(){
-
-    const page =
-        createPage();
-
-
-    document
-        .getElementById("pagesContainer")
-        .appendChild(page);
-
-
+    const page = createPage();
+    document.getElementById("pagesContainer").appendChild(page);
     updatePageNumbers();
 
-
-    page
-        .querySelector(".page-content")
-        .focus();
-
+    page.querySelector(".page-content").focus();
 
     scheduleSave();
-
 
     page.scrollIntoView({
-
         behavior:"smooth",
-
         block:"center"
-
     });
-
 }
-
 
 function deletePage(button){
-
-    const pages =
-        document.querySelectorAll(".book-page");
-
+    const pages = document.querySelectorAll(".book-page");
 
     if(pages.length <= 1){
-
-        alert(
-            "لا يمكن حذف الصفحة الوحيدة المتبقية."
-        );
-
+        alert("لا يمكن حذف الصفحة الوحيدة المتبقية.");
         return;
     }
 
-
-    button
-        .closest(".book-page")
-        .remove();
-
+    button.closest(".book-page").remove();
 
     updatePageNumbers();
-
     paginateBook(false);
-
     autoSave();
-
 }
-
 
 function clearBook(){
+    if(!confirm("سيتم حذف الكتاب المحفوظ وإنشاء صفحة جديدة. هل أنت متأكد؟")) return;
 
-    if(!confirm(
-        "سيتم حذف الكتاب المحفوظ وإنشاء صفحة جديدة. هل أنت متأكد؟"
-    )){
+    localStorage.removeItem(STORAGE_KEY);
 
-        return;
-
-    }
-
-
-    localStorage.removeItem(
-        STORAGE_KEY
-    );
-
-
-    const container =
-        document.getElementById("pagesContainer");
-
-
+    const container = document.getElementById("pagesContainer");
     container.innerHTML = "";
 
-
-    const page =
-        createPage();
-
-
+    const page = createPage();
     container.appendChild(page);
 
-
     updatePageNumbers();
-
     autoSave();
-
 }
 
+/* -------------------- التنسيق -------------------- */
 
-/* =========================================================
-   حفظ واسترجاع التحديد
-========================================================= */
+function getSelectionElement(node){
+    if(!node) return null;
+    if(node.nodeType === Node.TEXT_NODE) return node.parentElement;
+    if(node.nodeType === Node.ELEMENT_NODE) return node;
+    return node.parentElement || null;
+}
 
+function findParentParagraph(node){
+    let el = getSelectionElement(node);
+
+    while(el){
+        if(el.matches && el.matches("p")) return el;
+        el = el.parentElement;
+    }
+
+    return null;
+}
+
+/* حفظ موضع المؤشر فقط إذا كان داخل نص الكتاب */
 function saveSelection(){
+    const sel = window.getSelection();
 
-    const sel =
-        window.getSelection();
+    if(!sel || !sel.rangeCount) return;
 
+    const range = sel.getRangeAt(0);
+    const startEl = getSelectionElement(range.startContainer);
 
-    if(!sel.rangeCount){
-
+    if(
+        !startEl ||
+        !startEl.closest ||
+        !startEl.closest(".page-content[contenteditable='true']")
+    ){
         return;
-
     }
 
-
-    selectedRange =
-        sel.getRangeAt(0).cloneRange();
-
+    selectedRange = range.cloneRange();
 }
-
-
-document.addEventListener(
-    "selectionchange",
-    () => {
-
-        const active =
-            document.activeElement;
-
-
-        if(
-            active &&
-            active.closest &&
-            active.closest(
-                "[contenteditable='true']"
-            )
-        ){
-
-            saveSelection();
-
-        }
-
-    }
-);
-
 
 function restoreSelection(){
-
-    if(!selectedRange){
-
-        return false;
-
-    }
-
-
-    const sel =
-        window.getSelection();
-
+    if(!selectedRange) return false;
 
     try{
-
+        const sel = window.getSelection();
         sel.removeAllRanges();
-
-        sel.addRange(
-            selectedRange
-        );
-
+        sel.addRange(selectedRange);
         return true;
-
     }catch(error){
-
-        console.error(error);
-
+        console.warn("تعذر استعادة موضع المؤشر:", error);
         return false;
-
     }
-
 }
 
+document.addEventListener("selectionchange", () => {
+    const active = document.activeElement;
 
-/* =========================================================
-   التنسيق
-========================================================= */
+    if(
+        active &&
+        active.closest &&
+        active.closest(".page-content[contenteditable='true']")
+    ){
+        saveSelection();
+    }
+});
+
+document.addEventListener("pointerup", event => {
+    const target = event.target;
+
+    if(
+        target &&
+        target.closest &&
+        target.closest(".page-content[contenteditable='true']")
+    ){
+        setTimeout(saveSelection, 0);
+    }
+});
+
+/* -------------------- التنسيق -------------------- */
 
 function changeTextColor(color){
-
     if(!restoreSelection()){
-
-        alert(
-            "حدد النص أولًا."
-        );
-
+        alert("حدد النص أو ضع المؤشر داخل النص أولًا.");
         return;
-
     }
 
-
-    document.execCommand(
-        "foreColor",
-        false,
-        color
-    );
-
-
+    document.execCommand("foreColor", false, color);
     scheduleSave();
-
 }
-
 
 function formatText(command){
-
     if(!restoreSelection()){
-
-        alert(
-            "حدد النص أولًا."
-        );
-
+        alert("حدد النص أو ضع المؤشر داخل النص أولًا.");
         return;
-
     }
 
-
-    document.execCommand(
-        command,
-        false,
-        null
-    );
-
-
+    document.execCommand(command, false, null);
     scheduleSave();
-
 }
-
 
 function removeFormatting(){
-
     if(!restoreSelection()){
-
-        alert(
-            "حدد النص أولًا."
-        );
-
+        alert("حدد النص أو ضع المؤشر داخل النص أولًا.");
         return;
-
     }
 
-
-    document.execCommand(
-        "removeFormat",
-        false,
-        null
-    );
-
-
+    document.execCommand("removeFormat", false, null);
     scheduleSave();
-
 }
-
 
 function alignText(alignment){
-
     if(!restoreSelection()){
-
-        alert(
-            "ضع المؤشر داخل الفقرة أولًا."
-        );
-
+        alert("ضع المؤشر داخل الفقرة أولًا.");
         return;
-
     }
 
-
-    const commands = {
-
+    const commandMap = {
         right:"justifyRight",
-
         left:"justifyLeft",
-
         center:"justifyCenter",
-
         justify:"justifyFull"
-
     };
 
-
-    document.execCommand(
-        commands[alignment],
-        false,
-        null
-    );
-
-
-    scheduleSave();
-
+    if(commandMap[alignment]){
+        document.execCommand(commandMap[alignment], false, null);
+        scheduleSave();
+    }
 }
 
-
-/* =========================================================
-   الإطار
-========================================================= */
+/* -------------------- الإطار -------------------- */
 
 function toggleBorder(){
-
-    document
-        .querySelectorAll(".book-page")
-        .forEach(page => {
-
-            page.classList.toggle(
-                "bordered"
-            );
-
-        });
-
+    document.querySelectorAll(".book-page").forEach(page => {
+        page.classList.toggle("bordered");
+    });
 
     autoSave();
-
 }
 
-
-/* =========================================================
-   نظام الحواشي
-========================================================= */
-
-
-/*
-    الحصول على الرقم التالي.
-*/
+/* -------------------- الحواشي -------------------- */
 
 function getNextFootnoteNumber(){
-
     let max = 0;
 
+    document.querySelectorAll(".note-ref").forEach(ref => {
+        max = Math.max(max, Number(ref.dataset.note) || 0);
+    });
 
-    document
-        .querySelectorAll(".note-ref")
-        .forEach(ref => {
-
-            max = Math.max(
-
-                max,
-
-                Number(ref.dataset.note) || 0
-
-            );
-
-        });
-
-
-    document
-        .querySelectorAll(".footnote")
-        .forEach(note => {
-
-            max = Math.max(
-
-                max,
-
-                Number(note.dataset.noteId) || 0
-
-            );
-
-        });
-
+    document.querySelectorAll(".footnote").forEach(note => {
+        max = Math.max(max, Number(note.dataset.noteId) || 0);
+    });
 
     return max + 1;
-
 }
 
-
-/*
-    إضافة الحاشية.
-
-    الإصلاح الأساسي هنا:
-
-    لا نأخذ المؤشر مباشرة بعد الضغط على الزر،
-    بل نستعيد آخر Range محفوظ.
-*/
-
 function addFootnote(){
-
     /*
-        استرجاع آخر موضع للمؤشر.
+        على الهاتف قد يفقد المتصفح window.getSelection()
+        بمجرد الضغط على زر الحاشية.
+        لذلك نعتمد على selectedRange المحفوظ مسبقًا.
     */
+    if(!selectedRange){
+        saveSelection();
+    }
 
-    if(!restoreSelection()){
-
-        alert(
-            "ضع المؤشر داخل الفقرة التي تريد إضافة الحاشية إليها."
-        );
-
+    if(!selectedRange){
+        alert("اضغط داخل الفقرة التي تريد إضافة الحاشية إليها أولًا.");
         return;
-
     }
 
-
-    const sel =
-        window.getSelection();
-
-
-    if(!sel.rangeCount){
-
-        alert(
-            "ضع المؤشر داخل الفقرة التي تريد إضافة الحاشية إليها."
-        );
-
-        return;
-
-    }
-
-
-    let node =
-        sel.anchorNode;
-
-
-    if(node.nodeType === 3){
-
-        node =
-            node.parentElement;
-
-    }
-
-
-    /*
-        البحث عن الفقرة.
-    */
-
-    const paragraph =
-        node.closest("p");
-
+    const paragraph = findParentParagraph(selectedRange.startContainer);
 
     if(!paragraph){
-
-        alert(
-            "ضع المؤشر داخل فقرة نصية."
-        );
-
+        alert("ضع المؤشر داخل فقرة نصية، ثم اضغط «¹ حاشية».");
         return;
-
     }
 
-
-    /*
-        معرفة رقم الحاشية.
-    */
-
-    const number =
-        getNextFootnoteNumber();
-
-
-    /*
-        الحصول على موضع المؤشر.
-    */
-
-    const range =
-        sel.getRangeAt(0);
-
-
-    /*
-        إذا كان هناك نص محدد،
-        نضع الحاشية بعد النص المحدد.
-    */
-
-    if(!range.collapsed){
-
-        range.collapse(false);
-
-    }
-
-
-    /*
-        إنشاء رقم الحاشية.
-    */
-
-    const ref =
-        document.createElement("sup");
-
-
-    ref.className =
-        "note-ref";
-
-
-    ref.dataset.note =
-        number;
-
-
-    ref.textContent =
-        `[${number}]`;
-
-
-    /*
-        وضع رقم الحاشية داخل النص.
-    */
-
-    range.insertNode(ref);
-
-
-    /*
-        وضع المؤشر بعد رقم الحاشية.
-    */
-
-    const afterRef =
-        document.createRange();
-
-
-    afterRef.setStartAfter(ref);
-
-    afterRef.collapse(true);
-
-
-    sel.removeAllRanges();
-
-    sel.addRange(afterRef);
-
-
-    /*
-        معرفة الصفحة.
-    */
-
-    const page =
-        paragraph.closest(".book-page");
-
+    const page = paragraph.closest(".book-page");
 
     if(!page){
-
-        alert(
-            "تعذر تحديد صفحة الفقرة."
-        );
-
+        alert("تعذر تحديد صفحة الكتاب.");
         return;
-
     }
 
+    if(!restoreSelection()){
+        alert("تعذر استعادة موضع المؤشر. اضغط داخل الفقرة مرة أخرى.");
+        return;
+    }
 
-    /*
-        منطقة الحواشي.
-    */
+    const sel = window.getSelection();
+    const range = sel.getRangeAt(0);
+    const number = getNextFootnoteNumber();
 
-    const footnotes =
-        page.querySelector(".footnotes");
+    const ref = document.createElement("sup");
+    ref.className = "note-ref";
+    ref.dataset.note = number;
+    ref.textContent = `[${number}]`;
 
+    /* إدراج رقم الحاشية في موضع المؤشر */
+    range.collapse(false);
+    range.insertNode(ref);
+
+    /* وضع المؤشر بعد رقم الحاشية */
+    const caret = document.createRange();
+    caret.setStartAfter(ref);
+    caret.collapse(true);
+
+    sel.removeAllRanges();
+    sel.addRange(caret);
+
+    let footnotes = page.querySelector(".footnotes");
 
     if(!footnotes){
-
-        alert(
-            "تعذر العثور على منطقة الحواشي."
-        );
-
-        return;
-
+        footnotes = document.createElement("div");
+        footnotes.className = "footnotes";
+        page.appendChild(footnotes);
     }
 
-
-    /*
-        إنشاء الحاشية.
-    */
-
-    const note =
-        document.createElement("div");
-
-
-    note.className =
-        "footnote";
-
-
-    note.dataset.noteId =
-        number;
-
+    const note = document.createElement("div");
+    note.className = "footnote";
+    note.dataset.noteId = number;
 
     note.innerHTML = `
-
-        <span class="footnote-number">
-            (${number})
-        </span>
-
-        <span contenteditable="true">
-            اكتب نص الحاشية هنا...
-        </span>
-
+        <span class="footnote-number">(${number})</span>
+        <span contenteditable="true">اكتب نص الحاشية هنا...</span>
         <span class="footnote-actions">
-
-            <button
-                onclick="removeFootnote(this)"
-            >
-                حذف
-            </button>
-
+            <button onclick="removeFootnote(this)">حذف</button>
         </span>
-
     `;
-
 
     footnotes.appendChild(note);
 
-
-    /*
-        فتح حقل الحاشية مباشرة.
-    */
-
-    const editable =
-        note.querySelector(
-            "[contenteditable]"
-        );
-
-
+    const editable = note.querySelector("[contenteditable]");
     editable.focus();
 
+    const noteRange = document.createRange();
+    noteRange.selectNodeContents(editable);
+    noteRange.collapse(false);
 
-    const r =
-        document.createRange();
-
-
-    r.selectNodeContents(
-        editable
-    );
-
-
-    r.collapse(false);
-
-
-    const s =
-        window.getSelection();
-
-
-    s.removeAllRanges();
-
-    s.addRange(r);
-
+    sel.removeAllRanges();
+    sel.addRange(noteRange);
 
     /*
-        حفظ.
+        نلغي selectedRange حتى لا تُضاف الحاشية التالية بالخطأ داخل الحاشية.
+        يجب على المستخدم أن يضع المؤشر داخل الفقرة المطلوبة من جديد.
     */
+    selectedRange = null;
 
     scheduleSave();
-
 }
-
-
-/*
-    حذف حاشية.
-*/
 
 function removeFootnote(button){
+    const note = button.closest(".footnote");
+    if(!note) return;
 
-    const note =
-        button.closest(".footnote");
-
-
-    if(!note){
-
-        return;
-
-    }
-
-
-    const id =
-        note.dataset.noteId;
-
-
-    const page =
-        note.closest(".book-page");
-
-
-    /*
-        حذف الرقم الموجود داخل النص.
-    */
+    const id = note.dataset.noteId;
+    const page = note.closest(".book-page");
 
     if(page){
-
-        page
-            .querySelectorAll(
-                `.note-ref[data-note="${CSS.escape(id)}"]`
-            )
-            .forEach(ref => {
-
-                ref.remove();
-
-            });
-
+        page.querySelectorAll(
+            `.note-ref[data-note="${CSS.escape(id)}"]`
+        ).forEach(ref => ref.remove());
     }
-
-
-    /*
-        حذف الحاشية.
-    */
 
     note.remove();
-
-
+    selectedRange = null;
     scheduleSave();
-
 }
 
+/* -------------------- نظام توزيع الصفحات -------------------- */
 
-/* =========================================================
-   نظام توزيع الصفحات
-========================================================= */
+/*
+    هذا هو الجزء الذي يعالج المشكلة الأساسية.
+
+    الصفحة ثابتة A4.
+    إذا تجاوزت الفقرات مساحة المحتوى:
+    - لا نسمح للصفحة بالتمدد.
+    - ننقل آخر فقرة كاملة إلى الصفحة التالية.
+    - إذا كانت الفقرة مرتبطة بحاشية، تنتقل الحاشية معها.
+    - إذا أصبحت الصفحة التالية ممتلئة، يستمر الترحيل.
+    - لا يتم إنشاء صفحة فارغة للحاشية وحدها.
+*/
 
 function pageContentOverflows(page){
+    const content = page.querySelector(".page-content");
+    const footnotes = page.querySelector(".footnotes");
 
-    const content =
-        page.querySelector(".page-content");
-
-
-    const footnotes =
-        page.querySelector(".footnotes");
-
-
-    if(!content){
-
-        return false;
-
-    }
-
+    if(!content) return false;
 
     const contentOverflow =
-        content.scrollHeight >
-        content.clientHeight + 2;
-
+        content.scrollHeight > content.clientHeight + 2;
 
     const footnoteOverflow =
         footnotes &&
-        footnotes.scrollHeight >
-        footnotes.clientHeight + 2;
+        footnotes.scrollHeight > footnotes.clientHeight + 2;
 
-
-    return (
-        contentOverflow ||
-        footnoteOverflow
-    );
-
+    return contentOverflow || footnoteOverflow;
 }
-
 
 function ensurePageStructure(page){
-
     if(!page.querySelector(".page-header")){
-
-        const header =
-            document.createElement("div");
-
-
-        header.className =
-            "page-header";
-
-
+        const header = document.createElement("div");
+        header.className = "page-header";
         header.innerHTML = `
-
             <span class="header-book-title"></span>
-
             <span class="header-page-num"></span>
-
         `;
-
-
         page.prepend(header);
-
     }
-
 
     if(!page.querySelector(".chapter-title")){
-
-        const title =
-            document.createElement("div");
-
-
-        title.className =
-            "chapter-title";
-
-
-        title.contentEditable =
-            "true";
-
-
-        title.textContent =
-            "";
-
-
-        page
-            .querySelector(".page-header")
-            .after(title);
-
+        const title = document.createElement("div");
+        title.className = "chapter-title";
+        title.contentEditable = "true";
+        title.textContent = "";
+        page.querySelector(".page-header").after(title);
     }
-
 
     if(!page.querySelector(".page-content")){
-
-        const content =
-            document.createElement("div");
-
-
-        content.className =
-            "page-content";
-
-
-        content.contentEditable =
-            "true";
-
-
-        page
-            .querySelector(".chapter-title")
-            .after(content);
-
+        const content = document.createElement("div");
+        content.className = "page-content";
+        content.contentEditable = "true";
+        page.querySelector(".chapter-title").after(content);
     }
-
 
     if(!page.querySelector(".footnotes")){
-
-        const footnotes =
-            document.createElement("div");
-
-
-        footnotes.className =
-            "footnotes";
-
-
-        page.appendChild(
-            footnotes
-        );
-
+        page.appendChild(document.createElement("div"));
+        page.lastElementChild.className = "footnotes";
     }
-
 }
-
 
 function getParagraphNotes(paragraph){
-
     const ids = [];
 
-
-    paragraph
-        .querySelectorAll(".note-ref")
-        .forEach(ref => {
-
-            if(ref.dataset.note){
-
-                ids.push(
-                    ref.dataset.note
-                );
-
-            }
-
-        });
-
-
-    return ids;
-
-}
-
-
-function moveNotesToPage(
-    ids,
-    fromPage,
-    toPage
-){
-
-    if(!ids.length){
-
-        return;
-
-    }
-
-
-    const source =
-        fromPage.querySelector(
-            ".footnotes"
-        );
-
-
-    const target =
-        toPage.querySelector(
-            ".footnotes"
-        );
-
-
-    ids.forEach(id => {
-
-        const note =
-            source?.querySelector(
-                `.footnote[data-note-id="${CSS.escape(id)}"]`
-            );
-
-
-        if(note){
-
-            target.appendChild(
-                note
-            );
-
-        }
-
+    paragraph.querySelectorAll(".note-ref").forEach(ref => {
+        if(ref.dataset.note) ids.push(ref.dataset.note);
     });
 
+    return ids;
 }
 
+function moveNotesToPage(ids, fromPage, toPage){
+    if(!ids.length) return;
+
+    const source = fromPage.querySelector(".footnotes");
+    const target = toPage.querySelector(".footnotes");
+
+    ids.forEach(id => {
+        const note = source?.querySelector(`.footnote[data-note-id="${CSS.escape(id)}"]`);
+
+        if(note){
+            target.appendChild(note);
+        }
+    });
+}
+
+function moveNotesBack(ids, fromPage, toPage, paragraph){
+    if(!ids.length) return;
+
+    const source = fromPage.querySelector(".footnotes");
+    const target = toPage.querySelector(".footnotes");
+
+    ids.forEach(id => {
+        const note = source?.querySelector(`.footnote[data-note-id="${CSS.escape(id)}"]`);
+
+        if(note){
+            target.appendChild(note);
+        }
+
+        paragraph.querySelectorAll(`.note-ref[data-note="${CSS.escape(id)}"]`)
+            .forEach(ref => {});
+    });
+}
 
 function createNextPageAfter(page){
+    const next = createPage();
 
-    const next =
-        createPage();
+    const currentTitle = page.querySelector(".chapter-title");
 
-
-    const currentTitle =
-        page.querySelector(
-            ".chapter-title"
-        );
-
-
+    /* الصفحة الجديدة لا نكرر عنوان الفصل تلقائيًا */
     if(currentTitle){
-
-        next
-            .querySelector(
-                ".chapter-title"
-            )
-            .textContent = "";
-
+        next.querySelector(".chapter-title").textContent = "";
     }
-
 
     page.after(next);
-
-
     return next;
-
 }
-
-
-/* =========================================================
-   حذف الصفحات الفارغة
-========================================================= */
 
 function removeEmptyPages(){
+    const pages = [...document.querySelectorAll(".book-page")];
 
-    const pages =
-        [
-            ...document.querySelectorAll(
-                ".book-page"
-            )
-        ];
+    pages.forEach((page,index) => {
+        if(pages.length === 1) return;
 
+        const content = page.querySelector(".page-content");
+        const title = page.querySelector(".chapter-title");
+        const footnotes = page.querySelector(".footnotes");
 
-    pages.forEach(
-        (page,index) => {
+        const text =
+            (content?.innerText || "").trim();
 
-            if(pages.length === 1){
-
-                return;
-
-            }
-
-
-            const content =
-                page.querySelector(
-                    ".page-content"
-                );
-
-
-            const title =
-                page.querySelector(
-                    ".chapter-title"
-                );
-
-
-            const footnotes =
-                page.querySelector(
-                    ".footnotes"
-                );
-
-
-            const text =
-                (
-                    content?.innerText ||
-                    ""
-                ).trim();
-
-
-            const titleText =
-                (
-                    title?.innerText ||
-                    ""
-                ).trim();
-
-
-            const notes =
-                (
-                    footnotes?.innerText ||
-                    ""
-                ).trim();
-
-
-            const hasMeaningfulContent =
-
-                text
-                    .replace(
-                        "اكتب نص الصفحة هنا...",
-                        ""
-                    )
-                    .trim()
-
-                ||
-
-                titleText
-
-                ||
-
-                notes;
-
-
-            if(!hasMeaningfulContent){
-
-                page.remove();
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   توزيع الصفحات
-========================================================= */
-
-function paginateBook(
-    showMessage=true
-){
-
-    const pages =
-        [
-            ...document.querySelectorAll(
-                ".book-page"
-            )
-        ];
-
-
-    if(!pages.length){
-
-        return;
-
-    }
-
-
-    let changed =
-        true;
-
-
-    let safety =
-        0;
-
-
-    while(
-        changed &&
-        safety < 100
-    ){
-
-        changed =
-            false;
-
-
-        safety++;
-
-
-        const currentPages =
-            [
-                ...document.querySelectorAll(
-                    ".book-page"
-                )
-            ];
-
-
-        for(
-            let i=0;
-            i<currentPages.length;
-            i++
-        ){
-
-            const page =
-                currentPages[i];
-
-
-            ensurePageStructure(
-                page
-            );
-
-
-            const content =
-                page.querySelector(
-                    ".page-content"
-                );
-
-
-            if(!content){
-
-                continue;
-
-            }
-
-
-            if(
-                !pageContentOverflows(
-                    page
-                )
-            ){
-
-                continue;
-
-            }
-
-
-            const paragraphs =
-                [
-                    ...content.children
-                ]
-                .filter(
-                    el =>
-                        el.tagName === "P"
-                );
-
-
-            if(!paragraphs.length){
-
-                continue;
-
-            }
-
-
-            /*
-                نقل آخر فقرة.
-            */
-
-            const paragraph =
-                paragraphs[
-                    paragraphs.length - 1
-                ];
-
-
-            const ids =
-                getParagraphNotes(
-                    paragraph
-                );
-
-
-            let next =
-                page.nextElementSibling;
-
-
-            if(
-                !next ||
-                !next.classList.contains(
-                    "book-page"
-                )
-            ){
-
-                next =
-                    createNextPageAfter(
-                        page
-                    );
-
-            }
-
-
-            const nextContent =
-                next.querySelector(
-                    ".page-content"
-                );
-
-
-            nextContent.insertBefore(
-                paragraph,
-                nextContent.firstChild
-            );
-
-
-            /*
-                نقل الحواشي معها.
-            */
-
-            moveNotesToPage(
-                ids,
-                page,
-                next
-            );
-
-
-            changed =
-                true;
-
-
-            /*
-                حماية من الحلقة اللانهائية.
-            */
-
-            if(
-                pageContentOverflows(
-                    page
-                ) &&
-                content.children.length === 1
-            ){
-
-                break;
-
-            }
-
-
-            break;
-
-        }
-
-    }
-
-
-    /*
-        معالجة امتلاء منطقة الحواشي.
-    */
-
-    const finalPages =
-        [
-            ...document.querySelectorAll(
-                ".book-page"
-            )
-        ];
-
-
-    for(
-        let i=0;
-        i<finalPages.length;
-        i++
-    ){
-
-        const page =
-            finalPages[i];
-
-
-        const footnotes =
-            page.querySelector(
-                ".footnotes"
-            );
-
-
-        if(!footnotes){
-
-            continue;
-
-        }
-
-
-        if(
-            footnotes.scrollHeight <=
-            footnotes.clientHeight + 2
-        ){
-
-            continue;
-
-        }
-
+        const titleText =
+            (title?.innerText || "").trim();
 
         const notes =
-            [
-                ...footnotes.querySelectorAll(
-                    ".footnote"
-                )
-            ];
+            (footnotes?.innerText || "").trim();
 
+        const hasMeaningfulContent =
+            text.replace("اكتب نص الصفحة هنا...","").trim() ||
+            titleText ||
+            notes;
 
-        if(!notes.length){
-
-            continue;
-
+        if(!hasMeaningfulContent){
+            page.remove();
         }
+    });
+}
 
+function paginateBook(showMessage=true){
+    const pages = [...document.querySelectorAll(".book-page")];
 
-        const lastNote =
-            notes[notes.length - 1];
+    if(!pages.length) return;
 
+    /*
+        نعمل عدة دورات لأن نقل فقرة من صفحة إلى أخرى
+        قد يجعل الصفحة التالية ممتلئة بدورها.
+    */
+    let changed = true;
+    let safety = 0;
 
-        const noteId =
-            lastNote.dataset.noteId;
+    while(changed && safety < 100){
+        changed = false;
+        safety++;
 
+        const currentPages = [...document.querySelectorAll(".book-page")];
+
+        for(let i=0;i<currentPages.length;i++){
+
+            const page = currentPages[i];
+            ensurePageStructure(page);
+
+            const content = page.querySelector(".page-content");
+
+            if(!content) continue;
+
+            if(!pageContentOverflows(page)) continue;
+
+            const paragraphs = [...content.children]
+                .filter(el => el.tagName === "P");
+
+            if(!paragraphs.length) continue;
+
+            /*
+                ننقل آخر فقرة.
+                إذا كانت هذه الفقرة هي الوحيدة ولا يمكن تصغيرها،
+                لا نكرر الصفحة بلا نهاية.
+            */
+            const paragraph = paragraphs[paragraphs.length - 1];
+
+            const ids = getParagraphNotes(paragraph);
+
+            let next = page.nextElementSibling;
+
+            if(!next || !next.classList.contains("book-page")){
+                next = createNextPageAfter(page);
+            }
+
+            const nextContent = next.querySelector(".page-content");
+
+            /*
+                ننقل الفقرة نفسها.
+                الحواشي المرتبطة بها تنتقل معها.
+            */
+            nextContent.insertBefore(paragraph, nextContent.firstChild);
+
+            moveNotesToPage(ids, page, next);
+
+            changed = true;
+
+            /*
+                إذا كانت الفقرة لا يمكنها وحدها أن تتسع،
+                نتركها في الصفحة التالية ونمنع الحلقة اللانهائية.
+            */
+            if(pageContentOverflows(page) &&
+               content.children.length === 1){
+
+                break;
+            }
+
+            break;
+        }
+    }
+
+    /*
+        إذا كانت حواشي الصفحة نفسها لا تتسع،
+        ننقل آخر فقرة مرتبطة بحاشية إلى الصفحة التالية.
+    */
+    const finalPages = [...document.querySelectorAll(".book-page")];
+
+    for(let i=0;i<finalPages.length;i++){
+        const page = finalPages[i];
+        const footnotes = page.querySelector(".footnotes");
+
+        if(!footnotes) continue;
+
+        if(footnotes.scrollHeight <= footnotes.clientHeight + 2) continue;
+
+        const notes = [...footnotes.querySelectorAll(".footnote")];
+
+        if(!notes.length) continue;
+
+        const lastNote = notes[notes.length - 1];
+        const noteId = lastNote.dataset.noteId;
 
         const ref =
-            page.querySelector(
-                `.note-ref[data-note="${CSS.escape(noteId)}"]`
-            );
+            page.querySelector(`.note-ref[data-note="${CSS.escape(noteId)}"]`);
 
+        const paragraph = ref?.closest("p");
 
-        const paragraph =
-            ref?.closest("p");
+        if(!paragraph) continue;
 
+        let next = page.nextElementSibling;
 
-        if(!paragraph){
-
-            continue;
-
+        if(!next || !next.classList.contains("book-page")){
+            next = createNextPageAfter(page);
         }
 
+        next.querySelector(".page-content")
+            .insertBefore(paragraph, next.querySelector(".page-content").firstChild);
 
-        let next =
-            page.nextElementSibling;
-
-
-        if(
-            !next ||
-            !next.classList.contains(
-                "book-page"
-            )
-        ){
-
-            next =
-                createNextPageAfter(
-                    page
-                );
-
-        }
-
-
-        next
-            .querySelector(
-                ".page-content"
-            )
-            .insertBefore(
-                paragraph,
-                next.querySelector(
-                    ".page-content"
-                ).firstChild
-            );
-
-
-        next
-            .querySelector(
-                ".footnotes"
-            )
-            .appendChild(
-                lastNote
-            );
-
+        next.querySelector(".footnotes").appendChild(lastNote);
     }
-
 
     removeEmptyPages();
-
     updatePageNumbers();
 
-
     if(showMessage){
-
         autoSave();
-
-        setStatus(
-            "تم ضبط توزيع الصفحات والحواشي."
-        );
-
+        setStatus("تم ضبط توزيع الصفحات والحواشي.");
     }
-
 }
 
-
-/* =========================================================
-   فحص قبل الطباعة
-========================================================= */
+/* -------------------- فحص قبل الطباعة -------------------- */
 
 function validateBookBeforePrint(){
-
     paginateBook(false);
 
-
-    const pages =
-        [
-            ...document.querySelectorAll(
-                ".book-page"
-            )
-        ];
-
-
+    const pages = [...document.querySelectorAll(".book-page")];
     let problems = [];
 
+    pages.forEach((page,index) => {
+        const content = page.querySelector(".page-content");
+        const footnotes = page.querySelector(".footnotes");
 
-    pages.forEach(
-        (page,index) => {
-
-            const content =
-                page.querySelector(
-                    ".page-content"
-                );
-
-
-            const footnotes =
-                page.querySelector(
-                    ".footnotes"
-                );
-
-
-            if(
-                content &&
-                content.scrollHeight >
-                content.clientHeight + 3
-            ){
-
-                problems.push(
-                    `الصفحة ${index+1}: النص أطول من المساحة المتاحة.`
-                );
-
-            }
-
-
-            if(
-                footnotes &&
-                footnotes.scrollHeight >
-                footnotes.clientHeight + 3
-            ){
-
-                problems.push(
-                    `الصفحة ${index+1}: الحواشي أطول من المساحة المتاحة.`
-                );
-
-            }
-
+        if(content && content.scrollHeight > content.clientHeight + 3){
+            problems.push(`الصفحة ${index+1}: النص أطول من المساحة المتاحة.`);
         }
-    );
 
+        if(footnotes && footnotes.scrollHeight > footnotes.clientHeight + 3){
+            problems.push(`الصفحة ${index+1}: الحواشي أطول من المساحة المتاحة.`);
+        }
+    });
 
     if(problems.length){
-
         alert(
-
-            "يوجد محتوى يحتاج إلى تقليل حجم الخط أو زيادة عدد الصفحات:\n\n"
-            +
+            "يوجد محتوى يحتاج إلى تقليل حجم الخط أو زيادة عدد الصفحات:\n\n" +
             problems.join("\n")
-
         );
-
-
         return false;
-
     }
-
 
     return true;
-
 }
 
+window.addEventListener("beforeprint", () => {
+    paginateBook(false);
+    updatePageNumbers();
+});
 
-/* =========================================================
-   قبل الطباعة
-========================================================= */
-
-window.addEventListener(
-    "beforeprint",
-    () => {
-
-        paginateBook(false);
-
-        updatePageNumbers();
-
-    }
-);
-
-
-/* =========================================================
-   الحالة
-========================================================= */
+/* -------------------- واجهة المستخدم -------------------- */
 
 function setStatus(text){
-
-    const el =
-        document.getElementById(
-            "status"
-        );
-
-
-    if(el){
-
-        el.textContent =
-            text;
-
-    }
-
+    const el = document.getElementById("status");
+    if(el) el.textContent = text;
 }
 
+/* -------------------- تهيئة -------------------- */
 
-/* =========================================================
-   التهيئة
-========================================================= */
+window.addEventListener("DOMContentLoaded", () => {
+    loadBookData();
 
-window.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        loadBookData();
-
-
-        /*
-            انتظار خط أميري.
-        */
-
-        if(
-            document.fonts &&
-            document.fonts.ready
-        ){
-
-            document.fonts.ready.then(
-                () => {
-
-                    setTimeout(
-                        () => {
-
-                            paginateBook(false);
-
-                        },
-                        150
-                    );
-
-                }
-            );
-
-        }else{
-
-            setTimeout(
-                () => {
-
-                    paginateBook(false);
-
-                },
-                500
-            );
-
-        }
-
-
-        updatePageNumbers();
-
-    }
-);
-
-
-/* =========================================================
-   ضبط عرض الصفحات على الهاتف
-========================================================= */
-
-function fitPagesForScreen(){
-
-    if(
-        window.matchMedia(
-            "(max-width:850px)"
-        ).matches
-    ){
-
-        document
-            .querySelectorAll(
-                ".book-page"
-            )
-            .forEach(page => {
-
-                const available =
-                    Math.min(
-                        window.innerWidth - 10,
-                        820
-                    );
-
-
-                const widthPx =
-                    793.7;
-
-
-                const scale =
-                    Math.min(
-                        1,
-                        available / widthPx
-                    );
-
-
-                page.style.transform =
-                    `scale(${scale})`;
-
-
-                page.style.marginBottom =
-                    `${297 * (1-scale)}mm`;
-
-            });
-
+    /*
+        لا ننفذ الترحيل مباشرة قبل اكتمال الخط.
+        هذا مهم لأن تحميل خط أميري يغير ارتفاع النص.
+    */
+    if(document.fonts && document.fonts.ready){
+        document.fonts.ready.then(() => {
+            setTimeout(() => paginateBook(false), 150);
+        });
     }else{
-
-        document
-            .querySelectorAll(
-                ".book-page"
-            )
-            .forEach(page => {
-
-                page.style.transform =
-                    "";
-
-                page.style.marginBottom =
-                    "";
-
-            });
-
+        setTimeout(() => paginateBook(false), 500);
     }
 
+    updatePageNumbers();
+});
+
+/* ضبط العرض على الهاتف */
+function fitPagesForScreen(){
+    if(window.matchMedia("(max-width:850px)").matches){
+        document.querySelectorAll(".book-page").forEach(page => {
+            const available = Math.min(window.innerWidth - 10, 820);
+            const widthPx = 793.7;
+            const scale = Math.min(1, available / widthPx);
+
+            page.style.transform = `scale(${scale})`;
+            page.style.marginBottom = `${297 * (1-scale)}mm`;
+        });
+    }else{
+        document.querySelectorAll(".book-page").forEach(page => {
+            page.style.transform = "";
+            page.style.marginBottom = "";
+        });
+    }
 }
 
-
-window.addEventListener(
-    "resize",
-    fitPagesForScreen
-);
-
-
-window.addEventListener(
-    "load",
-    fitPagesForScreen
-);
-
+window.addEventListener("resize", fitPagesForScreen);
+window.addEventListener("load", fitPagesForScreen);
 </script>
 
 </body>
